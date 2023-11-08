@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 const ResponseImage = ({ imageUrl }) => {
   return (
     <div>
-      <img src={imageUrl} alt="" />
+      <img className="item" src={imageUrl} alt="" />
     </div>
   );
 };

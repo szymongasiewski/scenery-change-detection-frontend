@@ -27,15 +27,23 @@ const Register = () => {
 
   return (
     <div>
-      <form onSubmit={registerUser}>
-        <input type="email" name="email" placeholder="email" />
-        <input type="password" name="password" placeholder="password" />
+      <form className="container" onSubmit={registerUser}>
+        <input className="item" type="email" name="email" placeholder="email" />
         <input
+          className="item"
+          type="password"
+          name="password"
+          placeholder="password"
+        />
+        <input
+          className="item"
           type="password"
           name="confirm_password"
           placeholder="confirm password"
         />
-        <input type="submit" />
+        <button className="item" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );

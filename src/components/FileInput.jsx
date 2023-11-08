@@ -3,8 +3,13 @@ import PropTypes from "prop-types";
 const FileInput = ({ label, onChange }) => {
   return (
     <div>
-      <label>{label}</label>
-      <input type="file" onChange={onChange} accept="image/*" />
+      <label className="item">{label}</label>
+      <input
+        className="item"
+        type="file"
+        onChange={onChange}
+        accept="image/*"
+      />
     </div>
   );
 };

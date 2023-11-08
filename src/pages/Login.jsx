@@ -6,10 +6,17 @@ const Login = () => {
 
   return (
     <div>
-      <form onSubmit={loginUser}>
-        <input type="email" name="email" placeholder="email" />
-        <input type="password" name="password" placeholder="password" />
-        <input type="submit" />
+      <form className="container " onSubmit={loginUser}>
+        <input className="item" type="email" name="email" placeholder="email" />
+        <input
+          className="item"
+          type="password"
+          name="password"
+          placeholder="password"
+        />
+        <button className="item" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );

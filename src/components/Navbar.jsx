@@ -6,19 +6,24 @@ const Navbar = () => {
   let { user, logoutUser } = useContext(AuthContext);
 
   return (
-    <nav>
-      <Link to="/">Home</Link>
-      <Link to="/images">Images</Link>
-      {user ? (
-        <a onClick={logoutUser}>Logout</a>
-      ) : (
-        <>
-          <Link to="/signin">Sign in</Link>
-          <Link to="/signup">Sign up</Link>
-        </>
-      )}
-      {user && <p>Hello {user.email}</p>}
-    </nav>
+    <header>
+      <h3 className="logo">Logo</h3>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/images">Images</Link>
+        {user ? (
+          <>
+            <a>{user.email}</a>
+            <a onClick={logoutUser}>Logout</a>
+          </>
+        ) : (
+          <>
+            <Link to="/signin">Sign in</Link>
+            <Link to="/signup">Sign up</Link>
+          </>
+        )}
+      </nav>
+    </header>
   );
 };
 

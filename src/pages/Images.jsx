@@ -42,7 +42,7 @@ const Images = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <ImageUploadForm
         onSubmit={handleSubmit}
         onImage1Change={handleImage1Change}
