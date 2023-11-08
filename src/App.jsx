@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Error from "./pages/Error";
 import SharedLayout from "./pages/SharedLayout";
 import { AuthProvider } from "./context/AuthContext";
+import Images from "./pages/Images";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SharedLayout />}>
             <Route index element={<Home />} />
+            <Route path="images" element={<Images />} />
             <Route path="signup" element={<Register />} />
             <Route path="signin" element={<Login />} />
             <Route path="*" element={<Error />} />
