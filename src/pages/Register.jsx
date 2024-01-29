@@ -1,12 +1,50 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-// import axios from "axios";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "../api/axios";
+
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]/;
+const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-.]).{8,128}$/;
 
 const Register = () => {
+  const emailRef = useRef();
+  const errorRef = useRef();
+
   const [email, setEmail] = useState("");
+  const [validEmail, setValidEmail] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
+
   const [password, setPassword] = useState("");
-  const [confirm_password, setConfirmPassword] = useState("");
+  const [validPassword, setValidPassword] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [validConfirmPassword, setValidConfirmPassword] = useState(false);
+  const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    emailRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    const result = emailRegex.test(email);
+    setValidEmail(result);
+  }, [email]);
+
+  useEffect(() => {
+    const result = passwordRegex.test(password);
+    setValidPassword(result);
+    const confirmResult = password === confirmPassword;
+    setValidConfirmPassword(confirmResult);
+  }, [password, confirmPassword]);
+
+  useEffect(() => {
+    setErrorMessage("");
+  }, [email, password, confirmPassword]);
 
   const onEmailChange = (e) => {
     setEmail(e.target.value);
@@ -20,78 +58,146 @@ const Register = () => {
     setConfirmPassword(e.target.value);
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const response = await axios.post(
-  //     "http://127.0.0.1:8000/api/register/",
-  //     {
-  //       email: email,
-  //       password: password,
-  //       confirm_password: confirm_password,
-  //     },
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     },
-  //   );
-  // };
-
-  let registerUser = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let response = await fetch("http://127.0.0.1:8000/api/register/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        confirm_password: confirm_password,
-      }),
-    });
+    const v1 = emailRegex.test(email);
+    const v2 = passwordRegex.test(password);
+    if (!v1 || !v2) {
+      setErrorMessage("Invalid email or password.");
+      return;
+    }
 
-    if (response.status === 201) {
-      navigate("/signin");
-    } else {
-      alert("something wrong");
-      console.log(response);
+    try {
+      const response = await axios.post(
+        "register/",
+        {
+          email: email,
+          password: password,
+          confirm_password: confirmPassword,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        },
+      );
+      setErrorMessage("");
+      if (response.status === 201) {
+        navigate("/signin");
+      }
+    } catch (error) {
+      if (!error?.response) {
+        setErrorMessage("Network error.");
+      } else if (error.response?.status === 400) {
+        setErrorMessage("Invalid email or password.");
+      } else {
+        setErrorMessage("Registration failed.");
+      }
+      errorRef.current.focus();
     }
   };
 
   return (
-    <div>
-      <form className="container" onSubmit={registerUser}>
+    <div className="container">
+      <p
+        ref={errorRef}
+        className={errorMessage ? "error" : "offscreen"}
+        aria-live="asserive"
+      >
+        {errorMessage}
+      </p>
+      <h1>Sign Up</h1>
+      <form className="container" onSubmit={handleSubmit}>
+        <label htmlFor="email">Email:</label>
         <input
           className="item"
           type="email"
+          id="email"
+          ref={emailRef}
+          autoComplete="off"
           name="email"
-          placeholder="email"
+          placeholder="Email"
           value={email}
           onChange={onEmailChange}
+          required
+          aria-invalid={validEmail ? "false" : "true"}
+          aria-describedby="uidnote"
+          onFocus={() => setEmailFocus(true)}
+          onBlur={() => setEmailFocus(false)}
         />
+        <p
+          id="uidnote"
+          className={emailFocus && email && !validEmail ? "show" : "hide"}
+        >
+          Please enter a valid email address.
+        </p>
+        <label htmlFor="password">Password:</label>
         <input
           className="item"
+          id="password"
           type="password"
           name="password"
           placeholder="password"
           value={password}
           onChange={onPasswordChange}
+          required
+          aria-invalid={validPassword ? "false" : "true"}
+          aria-describedby="pwdnote"
+          onFocus={() => setPasswordFocus(true)}
+          onBlur={() => setPasswordFocus(false)}
         />
+        <p
+          id="pwdnote"
+          className={passwordFocus && !validPassword ? "show" : "hide"}
+        >
+          8 to 128 characters.
+          <br />
+          Must include one lowercase letter, one uppercase letter, one digit and
+          one special character.
+        </p>
+        <label htmlFor="confirm_password">Confirm Password:</label>
         <input
           className="item"
+          id="confirm_password"
           type="password"
           name="confirm_password"
           placeholder="confirm password"
-          value={confirm_password}
+          value={confirmPassword}
           onChange={onConfirmPasswordChange}
+          required
+          aria-invalid={validConfirmPassword ? "false" : "true"}
+          aria-describedby="cpwdnote"
+          onFocus={() => setConfirmPasswordFocus(true)}
+          onBlur={() => setConfirmPasswordFocus(false)}
         />
-        <button className="item" type="submit">
+        <p
+          id="cpwdnote"
+          className={
+            confirmPasswordFocus && !validConfirmPassword ? "show" : "hide"
+          }
+        >
+          Passwords do not match.
+        </p>
+        <button
+          className="item"
+          type="submit"
+          disabled={
+            !validEmail || !validPassword || !validConfirmPassword
+              ? true
+              : false
+          }
+        >
           Submit
         </button>
       </form>
+      <p>
+        Already have an account? &nbsp;
+        <span>
+          <Link to="/signin">Sign In</Link>
+        </span>
+      </p>
     </div>
   );
 };
