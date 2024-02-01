@@ -1,10 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "../api/axios";
-
-const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]/;
-const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-.]).{8,128}$/;
+import { EMAIL_PATTERN, PASSWORD_PATTERN } from "../utils/regexPatterns";
 
 const Register = () => {
   const emailRef = useRef();
@@ -31,12 +28,12 @@ const Register = () => {
   }, []);
 
   useEffect(() => {
-    const result = emailRegex.test(email);
+    const result = EMAIL_PATTERN.test(email);
     setValidEmail(result);
   }, [email]);
 
   useEffect(() => {
-    const result = passwordRegex.test(password);
+    const result = PASSWORD_PATTERN.test(password);
     setValidPassword(result);
     const confirmResult = password === confirmPassword;
     setValidConfirmPassword(confirmResult);
@@ -61,8 +58,8 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const v1 = emailRegex.test(email);
-    const v2 = passwordRegex.test(password);
+    const v1 = EMAIL_PATTERN.test(email);
+    const v2 = PASSWORD_PATTERN.test(password);
     if (!v1 || !v2) {
       setErrorMessage("Invalid email or password.");
       return;
@@ -101,103 +98,105 @@ const Register = () => {
 
   return (
     <div className="container">
-      <p
-        ref={errorRef}
-        className={errorMessage ? "error" : "offscreen"}
-        aria-live="asserive"
-      >
-        {errorMessage}
-      </p>
-      <h1>Sign Up</h1>
-      <form className="container" onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
-        <input
-          className="item"
-          type="email"
-          id="email"
-          ref={emailRef}
-          autoComplete="off"
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={onEmailChange}
-          required
-          aria-invalid={validEmail ? "false" : "true"}
-          aria-describedby="uidnote"
-          onFocus={() => setEmailFocus(true)}
-          onBlur={() => setEmailFocus(false)}
-        />
+      <div className="container cointainer-border">
         <p
-          id="uidnote"
-          className={emailFocus && email && !validEmail ? "show" : "hide"}
+          ref={errorRef}
+          className={errorMessage ? "error" : "offscreen"}
+          aria-live="asserive"
         >
-          Please enter a valid email address.
+          {errorMessage}
         </p>
-        <label htmlFor="password">Password:</label>
-        <input
-          className="item"
-          id="password"
-          type="password"
-          name="password"
-          placeholder="password"
-          value={password}
-          onChange={onPasswordChange}
-          required
-          aria-invalid={validPassword ? "false" : "true"}
-          aria-describedby="pwdnote"
-          onFocus={() => setPasswordFocus(true)}
-          onBlur={() => setPasswordFocus(false)}
-        />
-        <p
-          id="pwdnote"
-          className={passwordFocus && !validPassword ? "show" : "hide"}
-        >
-          8 to 128 characters.
-          <br />
-          Must include one lowercase letter, one uppercase letter, one digit and
-          one special character.
+        <h1>Sign Up</h1>
+        <form className="container" onSubmit={handleSubmit}>
+          <label htmlFor="email">Email:</label>
+          <input
+            className="item"
+            type="email"
+            id="email"
+            ref={emailRef}
+            autoComplete="off"
+            name="email"
+            placeholder="Email"
+            value={email}
+            onChange={onEmailChange}
+            required
+            aria-invalid={validEmail ? "false" : "true"}
+            aria-describedby="uidnote"
+            onFocus={() => setEmailFocus(true)}
+            onBlur={() => setEmailFocus(false)}
+          />
+          <p
+            id="uidnote"
+            className={emailFocus && email && !validEmail ? "show" : "hide"}
+          >
+            Please enter a valid email address.
+          </p>
+          <label htmlFor="password">Password:</label>
+          <input
+            className="item"
+            id="password"
+            type="password"
+            name="password"
+            placeholder="password"
+            value={password}
+            onChange={onPasswordChange}
+            required
+            aria-invalid={validPassword ? "false" : "true"}
+            aria-describedby="pwdnote"
+            onFocus={() => setPasswordFocus(true)}
+            onBlur={() => setPasswordFocus(false)}
+          />
+          <p
+            id="pwdnote"
+            className={passwordFocus && !validPassword ? "show" : "hide"}
+          >
+            8 to 128 characters.
+            <br />
+            Must include one lowercase letter, one uppercase letter, one digit
+            and one special character.
+          </p>
+          <label htmlFor="confirm_password">Confirm Password:</label>
+          <input
+            className="item"
+            id="confirm_password"
+            type="password"
+            name="confirm_password"
+            placeholder="confirm password"
+            value={confirmPassword}
+            onChange={onConfirmPasswordChange}
+            required
+            aria-invalid={validConfirmPassword ? "false" : "true"}
+            aria-describedby="cpwdnote"
+            onFocus={() => setConfirmPasswordFocus(true)}
+            onBlur={() => setConfirmPasswordFocus(false)}
+          />
+          <p
+            id="cpwdnote"
+            className={
+              confirmPasswordFocus && !validConfirmPassword ? "show" : "hide"
+            }
+          >
+            Passwords do not match.
+          </p>
+          <button
+            className="item"
+            type="submit"
+            disabled={
+              !validEmail || !validPassword || !validConfirmPassword
+                ? true
+                : false
+            }
+          >
+            Sign Up
+          </button>
+        </form>
+        <p>
+          Already have an account? &nbsp;
+          <span>
+            <Link to="/signin">Sign In</Link>
+          </span>
         </p>
-        <label htmlFor="confirm_password">Confirm Password:</label>
-        <input
-          className="item"
-          id="confirm_password"
-          type="password"
-          name="confirm_password"
-          placeholder="confirm password"
-          value={confirmPassword}
-          onChange={onConfirmPasswordChange}
-          required
-          aria-invalid={validConfirmPassword ? "false" : "true"}
-          aria-describedby="cpwdnote"
-          onFocus={() => setConfirmPasswordFocus(true)}
-          onBlur={() => setConfirmPasswordFocus(false)}
-        />
-        <p
-          id="cpwdnote"
-          className={
-            confirmPasswordFocus && !validConfirmPassword ? "show" : "hide"
-          }
-        >
-          Passwords do not match.
-        </p>
-        <button
-          className="item"
-          type="submit"
-          disabled={
-            !validEmail || !validPassword || !validConfirmPassword
-              ? true
-              : false
-          }
-        >
-          Submit
-        </button>
-      </form>
-      <p>
-        Already have an account? &nbsp;
-        <span>
-          <Link to="/signin">Sign In</Link>
-        </span>
-      </p>
+      </div>
     </div>
   );
 };

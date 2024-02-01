@@ -61,3 +61,10 @@ nav a:hover {
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+
+.cointainer-border {
+  border: 1px solid black;
+  border-radius: 50px;
+  padding: 50px;
+  margin: 50px;
+}
