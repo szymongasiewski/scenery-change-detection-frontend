@@ -68,11 +68,11 @@ const Register = () => {
     try {
       const response = await axios.post(
         "register/",
-        {
+        JSON.stringify({
           email: email,
           password: password,
           confirm_password: confirmPassword,
-        },
+        }),
         {
           headers: {
             "Content-Type": "application/json",
@@ -98,7 +98,7 @@ const Register = () => {
 
   return (
     <div className="container">
-      <div className="container cointainer-border">
+      <div className="container cointainer-border-shadow">
         <p
           ref={errorRef}
           className={errorMessage ? "error" : "offscreen"}
