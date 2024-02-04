@@ -7,20 +7,27 @@ import Error from "./pages/Error";
 import SharedLayout from "./pages/SharedLayout";
 import { AuthProvider } from "./context/AuthContext";
 import Images from "./pages/Images";
+import RequireAuth from "./components/RequireAuth";
+import { AuthProvider as AuthProvider2 } from "./context/AuthProvider";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<SharedLayout />}>
-            <Route index element={<Home />} />
-            <Route path="images" element={<Images />} />
-            <Route path="signup" element={<Register />} />
-            <Route path="signin" element={<Login />} />
-            <Route path="*" element={<Error />} />
-          </Route>
-        </Routes>
+        <AuthProvider2>
+          <Routes>
+            <Route path="/" element={<SharedLayout />}>
+              <Route index element={<Home />} />
+              {/* <Route path="images" element={<Images />} /> */}
+              <Route path="signup" element={<Register />} />
+              <Route path="signin" element={<Login />} />
+              <Route element={<RequireAuth />}>
+                <Route path="images" element={<Images />} />
+              </Route>
+              <Route path="*" element={<Error />} />
+            </Route>
+          </Routes>
+        </AuthProvider2>
       </AuthProvider>
     </BrowserRouter>
   );

@@ -1,12 +1,12 @@
-import { useRef, useState, useEffect, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 //import AuthContext from "../context/AuthContext";
-import AuthContext from "../context/AuthProvider";
+import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 
 const Login = () => {
   //let { loginUser } = useContext(AuthContext);
-  const { setUser } = useContext(AuthContext);
+  const { setUser } = useAuth();
 
   const emailRef = useRef();
   const errorRef = useRef();
@@ -16,6 +16,8 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/";
 
   useEffect(() => {
     emailRef.current.focus();
@@ -48,7 +50,7 @@ const Login = () => {
       setPassword("");
 
       if (response.status === 200) {
-        navigate("/");
+        navigate(from, { replace: true });
       }
     } catch (error) {
       if (!error?.response) {
