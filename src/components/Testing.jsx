@@ -10,15 +10,13 @@ const Testing = () => {
 
   useEffect(() => {
     let isMounted = true;
-    const controller = new AbortController();
+    //const controller = new AbortController();
 
     const getTestMsg = async () => {
       try {
-        const request = await axiosPrivate.get("test/", {
-          signal: controller.signal,
-        });
-        console.log(request.data);
-        isMounted && setMsg(request.data.msg);
+        const response = await axiosPrivate.get("test/");
+        console.log(response.data);
+        isMounted && setMsg(response.data.msg);
       } catch (error) {
         console.error("Error:", error);
         navigate("/signin", { state: { from: loaction }, replace: true });
@@ -29,11 +27,11 @@ const Testing = () => {
 
     return () => {
       isMounted = false;
-      controller.abort();
+      //controller.abort();
     };
   }, []);
 
-  return <div>{msg}</div>;
+  return <div>{msg ? <p>{msg}</p> : <p>Loading...</p>}</div>;
 };
 
 export default Testing;

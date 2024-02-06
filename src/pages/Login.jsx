@@ -43,9 +43,9 @@ const Login = () => {
         },
       );
       const accessToken = response?.data?.access_token;
-      const refreshToken = response?.data?.refresh_token;
+      // const refreshToken = response?.data?.refresh_token;
       const userEmail = response?.data?.email;
-      setUser({ userEmail, accessToken, refreshToken });
+      setUser({ userEmail, accessToken /*, refreshToken*/ });
       setEmail("");
       setPassword("");
 
