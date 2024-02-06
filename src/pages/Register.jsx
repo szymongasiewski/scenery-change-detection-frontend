@@ -98,6 +98,9 @@ const Register = () => {
 
   return (
     <div className="container">
+      <div>
+        <h1>LOGO</h1>
+      </div>
       <div className="container cointainer-border-shadow">
         <p
           ref={errorRef}
@@ -196,6 +199,9 @@ const Register = () => {
             <Link to="/signin">Sign In</Link>
           </span>
         </p>
+        <span>
+          <Link to="/">Back to Home page</Link>
+        </span>
       </div>
     </div>
   );

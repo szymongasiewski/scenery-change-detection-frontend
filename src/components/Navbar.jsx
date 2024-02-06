@@ -1,9 +1,17 @@
-import { Link } from "react-router-dom";
-import { useContext } from "react";
-import AuthContext from "../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import useLogout from "../hooks/useLogout";
 
 const Navbar = () => {
-  let { user, logoutUser } = useContext(AuthContext);
+  // let { user, logoutUser } = useContext(AuthContext);
+  const { user } = useAuth();
+  const logout = useLogout();
+  const navigate = useNavigate();
+
+  const signOut = async () => {
+    await logout();
+    navigate("/");
+  };
 
   return (
     <header>
@@ -11,10 +19,10 @@ const Navbar = () => {
       <nav>
         <Link to="/">Home</Link>
         <Link to="/images">Images</Link>
-        {user ? (
+        {user.userEmail ? (
           <>
-            <a>{user.email}</a>
-            <a onClick={logoutUser}>Logout</a>
+            <a>{user.userEmail}</a>
+            <a onClick={signOut}>Logout</a>
           </>
         ) : (
           <>

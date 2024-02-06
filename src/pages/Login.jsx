@@ -68,6 +68,9 @@ const Login = () => {
 
   return (
     <div className="container">
+      <div>
+        <h1>LOGO</h1>
+      </div>
       <div className="container cointainer-border-shadow">
         <p
           ref={errorRef}
@@ -113,6 +116,9 @@ const Login = () => {
               <Link to="/signup">Sign Up</Link>
             </span>
           </p>
+          <span>
+            <Link to="/">Back to Home page</Link>
+          </span>
         </form>
       </div>
     </div>
