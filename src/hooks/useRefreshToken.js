@@ -13,8 +13,6 @@ const useRefreshToken = () => {
       },
     );
     setUser((prev) => {
-      console.log(JSON.stringify(prev));
-      console.log(JSON.stringify(response.data));
       return {
         ...prev,
         userEmail: response.data.email,
