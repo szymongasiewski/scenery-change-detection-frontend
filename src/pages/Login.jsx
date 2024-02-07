@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
+import useInput from "../hooks/useInput";
 
 const Login = () => {
   const { setUser } = useAuth();
@@ -9,8 +10,8 @@ const Login = () => {
   const emailRef = useRef();
   const errorRef = useRef();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, resetEmail, emailAttribs] = useInput("");
+  const [password, resetPassword, passwordAttribs] = useInput("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
@@ -43,8 +44,8 @@ const Login = () => {
       const accessToken = response?.data?.access_token;
       const userEmail = response?.data?.email;
       setUser({ userEmail, accessToken });
-      setEmail("");
-      setPassword("");
+      resetEmail();
+      resetPassword();
 
       if (response.status === 200) {
         navigate(from, { replace: true });
@@ -87,8 +88,7 @@ const Login = () => {
             name="email"
             placeholder="email"
             autoComplete="off"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            {...emailAttribs}
             required
           />
           <label htmlFor="password">Password:</label>
@@ -98,8 +98,7 @@ const Login = () => {
             id="password"
             name="password"
             placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
+            {...passwordAttribs}
             required
           />
           <button className="item" type="submit">

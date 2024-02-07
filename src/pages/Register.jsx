@@ -2,20 +2,22 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "../api/axios";
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from "../utils/regexPatterns";
+import useInput from "../hooks/useInput";
 
 const Register = () => {
   const emailRef = useRef();
   const errorRef = useRef();
 
-  const [email, setEmail] = useState("");
+  const [email, resetEmail, emailAttribs] = useInput("");
   const [validEmail, setValidEmail] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
 
-  const [password, setPassword] = useState("");
+  const [password, resetPassword, passwordAttribs] = useInput("");
   const [validPassword, setValidPassword] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
 
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPassword, resetConfirmPassword, confirmPasswordAttribs] =
+    useInput("");
   const [validConfirmPassword, setValidConfirmPassword] = useState(false);
   const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
 
@@ -43,18 +45,6 @@ const Register = () => {
     setErrorMessage("");
   }, [email, password, confirmPassword]);
 
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const onPasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const onConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -81,6 +71,9 @@ const Register = () => {
         },
       );
       setErrorMessage("");
+      resetEmail();
+      resetPassword();
+      resetConfirmPassword();
       if (response.status === 201) {
         navigate("/signin");
       }
@@ -120,8 +113,7 @@ const Register = () => {
             autoComplete="off"
             name="email"
             placeholder="Email"
-            value={email}
-            onChange={onEmailChange}
+            {...emailAttribs}
             required
             aria-invalid={validEmail ? "false" : "true"}
             aria-describedby="uidnote"
@@ -141,8 +133,7 @@ const Register = () => {
             type="password"
             name="password"
             placeholder="password"
-            value={password}
-            onChange={onPasswordChange}
+            {...passwordAttribs}
             required
             aria-invalid={validPassword ? "false" : "true"}
             aria-describedby="pwdnote"
@@ -165,8 +156,7 @@ const Register = () => {
             type="password"
             name="confirm_password"
             placeholder="confirm password"
-            value={confirmPassword}
-            onChange={onConfirmPasswordChange}
+            {...confirmPasswordAttribs}
             required
             aria-invalid={validConfirmPassword ? "false" : "true"}
             aria-describedby="cpwdnote"
