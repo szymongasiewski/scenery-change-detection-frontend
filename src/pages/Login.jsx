@@ -1,11 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-//import AuthContext from "../context/AuthContext";
 import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 
 const Login = () => {
-  //let { loginUser } = useContext(AuthContext);
   const { setUser } = useAuth();
 
   const emailRef = useRef();
@@ -43,9 +41,8 @@ const Login = () => {
         },
       );
       const accessToken = response?.data?.access_token;
-      // const refreshToken = response?.data?.refresh_token;
       const userEmail = response?.data?.email;
-      setUser({ userEmail, accessToken /*, refreshToken*/ });
+      setUser({ userEmail, accessToken });
       setEmail("");
       setPassword("");
 
@@ -81,8 +78,6 @@ const Login = () => {
         </p>
         <h1>Sign In</h1>
         <form className="container" onSubmit={handleSubmit}>
-          {" "}
-          {/* onSubmit={loginUser}> */}
           <label htmlFor="email">Email:</label>
           <input
             className="item"

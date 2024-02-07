@@ -30,12 +30,8 @@ const PersistLogin = () => {
     return () => {
       isMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useEffect(() => {
-  //   console.log(`isLoading: ${isLoading}`);
-  //   console.log(`aT: ${JSON.stringify(user?.accessToken)}`);
-  // }, [isLoading]);
 
   return <>{isLoading ? <p>Loading...</p> : <Outlet />}</>;
 };

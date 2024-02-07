@@ -3,7 +3,6 @@ import useAuth from "../hooks/useAuth";
 import useLogout from "../hooks/useLogout";
 
 const Navbar = () => {
-  // let { user, logoutUser } = useContext(AuthContext);
   const { user } = useAuth();
   const logout = useLogout();
   const navigate = useNavigate();
