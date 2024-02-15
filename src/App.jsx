@@ -6,13 +6,8 @@ import Login from "./pages/Login";
 import Error from "./pages/Error";
 import SharedLayout from "./components/SharedLayout";
 import Images from "./pages/Images";
-// import RequireAuth from "./components/RequireAuth";
 import RequireAuth from "./features/auth/RequireAuth";
-// import { AuthProvider } from "./context/AuthProvider";
-// import PersistLogin from "./components/PersistLogin";
-// import LoginForm from "./features/auth/LoginForm";
 import History from "./features/history/History";
-// import RegisterForm from "./features/auth/RegisterForm";
 import PersistLogin from "./features/auth/PersistLogin";
 import Profile from "./pages/Profile";
 import DeleteAccount from "./pages/DeleteAccount";
@@ -21,7 +16,6 @@ import ChangePassword from "./pages/ChangePassword";
 function App() {
   return (
     <BrowserRouter>
-      {/* <AuthProvider> */}
       <Routes>
         <Route path="signup" element={<Register />} />
         <Route path="signin" element={<Login />} />
@@ -39,7 +33,6 @@ function App() {
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
-      {/* </AuthProvider> */}
     </BrowserRouter>
   );
 }

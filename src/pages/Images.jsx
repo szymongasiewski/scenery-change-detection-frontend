@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import ImageUploadForm from "../components/ImageUploadForm";
 import ResponseImage from "../components/ResponseImage";
-import Testing from "../components/Testing";
 
 const Images = () => {
   const [image1, setImage1] = useState(null);
@@ -44,7 +43,6 @@ const Images = () => {
 
   return (
     <div className="container">
-      {/* <Testing /> */}
       <ImageUploadForm
         onSubmit={handleSubmit}
         onImage1Change={handleImage1Change}
