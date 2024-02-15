@@ -44,5 +44,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
+  // eslint-disable-next-line no-unused-vars
   endpoints: (builder) => ({}),
 });

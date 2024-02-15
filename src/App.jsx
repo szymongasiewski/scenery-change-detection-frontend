@@ -12,13 +12,14 @@ import { AuthProvider } from "./context/AuthProvider";
 import PersistLogin from "./components/PersistLogin";
 import LoginForm from "./features/auth/LoginForm";
 import History from "./features/history/History";
+import RegisterForm from "./features/auth/RegisterForm";
 
 function App() {
   return (
     <BrowserRouter>
       {/* <AuthProvider> */}
       <Routes>
-        <Route path="signup" element={<Register />} />
+        <Route path="signup" element={<RegisterForm />} />
         <Route path="signin" element={<LoginForm />} />
         <Route path="/" element={<SharedLayout />}>
           {/* <Route element={<PersistLogin />}> */}

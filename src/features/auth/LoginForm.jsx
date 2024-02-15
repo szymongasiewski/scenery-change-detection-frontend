@@ -41,11 +41,11 @@ const LoginForm = () => {
       navigate(from, { replace: true });
     } catch (error) {
       console.log("error", error);
-      if (!error?.originalStatus) {
+      if (!error?.status) {
         setErrorMessage("Server is not responding");
-      } else if (error?.originalStatus === 401) {
+      } else if (error?.status === 401) {
         setErrorMessage("Invalid email or password");
-      } else if (error?.originalStatus === 400) {
+      } else if (error?.status === 400) {
         setErrorMessage("Fields cannot be empty");
       } else {
         setErrorMessage("Something went wrong");
