@@ -8,6 +8,9 @@ const Profile = () => {
         <button>
           <Link to="/delete-account">Delete Account</Link>
         </button>
+        <button>
+          <Link to="/change-password">Change Password</Link>
+        </button>
       </div>
     </div>
   );

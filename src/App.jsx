@@ -16,6 +16,7 @@ import History from "./features/history/History";
 import PersistLogin from "./features/auth/PersistLogin";
 import Profile from "./pages/Profile";
 import DeleteAccount from "./pages/DeleteAccount";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               <Route path="images" element={<Images />} />
               <Route path="profile" element={<Profile />} />
               <Route path="delete-account" element={<DeleteAccount />} />
+              <Route path="change-password" element={<ChangePassword />} />
               <Route path="history" element={<History />} />
             </Route>
           </Route>
