@@ -1,14 +1,19 @@
 import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import useLogout from "../hooks/useLogout";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/auth/authSlice";
+import { useLogoutUserMutation } from "../features/auth/authApiSlice";
+import { useDispatch } from "react-redux";
+import { logout } from "../features/auth/authSlice";
 
 const Navbar = () => {
-  const { user } = useAuth();
-  const logout = useLogout();
+  const email = useSelector(selectUser);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [logoutUser] = useLogoutUserMutation();
 
   const signOut = async () => {
-    await logout();
+    dispatch(logout());
+    await logoutUser();
     navigate("/");
   };
 
@@ -18,9 +23,10 @@ const Navbar = () => {
       <nav>
         <Link to="/">Home</Link>
         <Link to="/images">Images</Link>
-        {user.userEmail ? (
+        <Link to="/history">History</Link>
+        {email ? (
           <>
-            <a>{user.userEmail}</a>
+            <a>{email}</a>
             <a onClick={signOut}>Logout</a>
           </>
         ) : (
