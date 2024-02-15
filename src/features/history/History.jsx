@@ -1,20 +1,25 @@
 import { useGetHistoryQuery } from "./historyApiSlice";
+import { useState } from "react";
 
 const History = () => {
+  const [page, setPage] = useState(1);
   const {
     data: history,
     isLoading,
     isSuccess,
     isError,
     error,
-  } = useGetHistoryQuery();
+    isFetching,
+  } = useGetHistoryQuery(page);
 
   let content;
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     content = <p>Loading...</p>;
   } else if (isError) {
     content = <p>Error: {JSON.stringify(error)}</p>;
+  } else if (history.count === 0) {
+    content = <p>No images</p>;
   } else if (isSuccess) {
     console.log("history", history);
     content = (
@@ -27,6 +32,19 @@ const History = () => {
             </li>
           ))}
         </ul>
+        <button
+          disabled={history.previous === null}
+          onClick={() => setPage(page - 1)}
+        >
+          Previous
+        </button>
+        <p>{page}</p>
+        <button
+          disabled={history.next === null}
+          onClick={() => setPage(page + 1)}
+        >
+          Next
+        </button>
       </div>
     );
   }
