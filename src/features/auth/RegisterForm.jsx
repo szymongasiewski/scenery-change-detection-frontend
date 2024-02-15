@@ -63,14 +63,13 @@ const RegisterForm = () => {
         password: password,
         confirm_password: confirmPassword,
       }).unwrap();
-      console.log(response);
+
       setErrorMessage("");
       resetEmail();
       resetPassword();
       resetConfirmPassword();
       navigate("/signin");
     } catch (error) {
-      console.log("error", error);
       if (!error?.status) {
         setErrorMessage("Network error.");
       } else if (error.status === 400) {

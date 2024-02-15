@@ -40,7 +40,6 @@ const LoginForm = () => {
 
       navigate(from, { replace: true });
     } catch (error) {
-      console.log("error", error);
       if (!error?.status) {
         setErrorMessage("Server is not responding");
       } else if (error?.status === 401) {

@@ -44,7 +44,7 @@ const Images = () => {
 
   return (
     <div className="container">
-      <Testing />
+      {/* <Testing /> */}
       <ImageUploadForm
         onSubmit={handleSubmit}
         onImage1Change={handleImage1Change}

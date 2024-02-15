@@ -15,22 +15,16 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  console.log("from base", result);
   if (result?.error?.status === 401) {
-    console.log("refreshing token");
-    console.log("args", args);
-    console.log("api", api);
-    console.log("extraOptions", extraOptions);
     const refreshResult = await baseQuery(
       {
         url: "token/refresh/",
         method: "POST",
-        headers: { Authorization: null },
       },
       api,
       extraOptions,
     );
-    console.log("from refresh", refreshResult);
+
     if (refreshResult?.data) {
       api.dispatch(setUser(refreshResult.data.email));
       api.dispatch(setToken(refreshResult.data.access));
