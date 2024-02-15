@@ -26,7 +26,7 @@ const Navbar = () => {
         <Link to="/history">History</Link>
         {email ? (
           <>
-            <a>{email}</a>
+            <Link to="/profile">{email}</Link>
             <a onClick={signOut}>Logout</a>
           </>
         ) : (

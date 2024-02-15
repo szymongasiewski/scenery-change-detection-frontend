@@ -28,6 +28,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    deleteAccount: builder.mutation({
+      query: (body) => ({
+        url: "user/delete/",
+        method: "DELETE",
+        body: { ...body },
+      }),
+    }),
   }),
 });
 
@@ -36,4 +43,5 @@ export const {
   useRegisterMutation,
   useLogoutUserMutation,
   useRefreshTokenMutation,
+  useDeleteAccountMutation,
 } = authApiSlice;
