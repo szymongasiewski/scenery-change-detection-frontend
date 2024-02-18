@@ -86,9 +86,6 @@ const RegisterForm = () => {
     <p>Loading...</p>
   ) : (
     <div className="container">
-      <div>
-        <h1>LOGO</h1>
-      </div>
       <div className="container cointainer-border-shadow">
         <p
           ref={errorRef}

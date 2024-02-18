@@ -5,6 +5,10 @@ import { useLogoutUserMutation } from "../features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { logout } from "../features/auth/authSlice";
 import { changeDetectionApiSlice } from "../features/change-detection/changeDetectionApiSlice";
+import Logo from "./Logo";
+
+const logoSize = 40;
+const imgPath = "logo-white.svg";
 
 const Navbar = () => {
   const email = useSelector(selectUser);
@@ -21,7 +25,7 @@ const Navbar = () => {
 
   return (
     <header>
-      <h3 className="logo">Logo</h3>
+      <Logo size={logoSize} imgPath={imgPath} />
       <nav>
         <Link to="/">Home</Link>
         <Link to="/images">Images</Link>
