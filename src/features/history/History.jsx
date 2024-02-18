@@ -26,9 +26,22 @@ const History = () => {
       <div>
         <h1>History</h1>
         <ul>
-          {history.results.map((item, i) => (
-            <li key={i}>
-              <img src={item.image} alt={i} />
+          {history.results.map((item) => (
+            <li key={item.id}>
+              <p>{item.status}</p>
+              {item.input_images.length === 2 ? (
+                <>
+                  <img src={item.input_images[0].image} alt="wrong" />
+                  <img src={item.input_images[1].image} alt="wrong" />
+                </>
+              ) : (
+                <p>No inputs</p>
+              )}
+              {item.output_image === null ? (
+                <p>No output</p>
+              ) : (
+                <img src={item.output_image.image} alt="wrong" />
+              )}
             </li>
           ))}
         </ul>
