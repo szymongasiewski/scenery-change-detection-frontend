@@ -5,13 +5,13 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Error from "./pages/Error";
 import SharedLayout from "./components/SharedLayout";
-import Images from "./pages/Images";
 import RequireAuth from "./features/auth/RequireAuth";
-import History from "./features/history/History";
+import History from "./pages/History";
 import PersistLogin from "./features/auth/PersistLogin";
 import Profile from "./pages/Profile";
 import DeleteAccount from "./pages/DeleteAccount";
 import ChangePassword from "./pages/ChangePassword";
+import ChangeDetectionApp from "./pages/ChangeDetectionApp";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
           <Route element={<PersistLogin />}>
             <Route index element={<Home />} />
             <Route element={<RequireAuth />}>
-              <Route path="images" element={<Images />} />
+              <Route path="images" element={<ChangeDetectionApp />} />
               <Route path="profile" element={<Profile />} />
               <Route path="delete-account" element={<DeleteAccount />} />
               <Route path="change-password" element={<ChangePassword />} />

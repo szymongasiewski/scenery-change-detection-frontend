@@ -4,6 +4,7 @@ import { selectUser } from "../features/auth/authSlice";
 import { useLogoutUserMutation } from "../features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { logout } from "../features/auth/authSlice";
+import { changeDetectionApiSlice } from "../features/change-detection/changeDetectionApiSlice";
 
 const Navbar = () => {
   const email = useSelector(selectUser);
@@ -13,6 +14,7 @@ const Navbar = () => {
 
   const signOut = async () => {
     dispatch(logout());
+    dispatch(changeDetectionApiSlice.util.resetApiState());
     await logoutUser();
     navigate("/");
   };

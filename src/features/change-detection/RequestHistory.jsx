@@ -1,7 +1,7 @@
-import { useGetHistoryQuery } from "./historyApiSlice";
+import { useGetHistoryQuery } from "./changeDetectionApiSlice";
 import { useState } from "react";
 
-const History = () => {
+const RequestHistory = () => {
   const [page, setPage] = useState(1);
   const {
     data: history,
@@ -64,4 +64,4 @@ const History = () => {
   return content;
 };
 
-export default History;
+export default RequestHistory;

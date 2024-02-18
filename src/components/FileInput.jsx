@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const FileInput = ({ label, onChange }) => {
+const FileInput = ({ label, onChange, imagePreview }) => {
   return (
     <div>
       <label className="item">{label}</label>
@@ -10,6 +10,14 @@ const FileInput = ({ label, onChange }) => {
         onChange={onChange}
         accept="image/*"
       />
+      {imagePreview && (
+        <img
+          className="item"
+          src={imagePreview}
+          alt="preview"
+          style={{ width: "200px" }}
+        />
+      )}
     </div>
   );
 };
@@ -17,6 +25,7 @@ const FileInput = ({ label, onChange }) => {
 FileInput.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  imagePreview: PropTypes.string,
 };
 
 export default FileInput;
