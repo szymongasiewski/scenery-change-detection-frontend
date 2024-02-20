@@ -9,7 +9,6 @@ const RequestHistory = () => {
     isLoading,
     isSuccess,
     isError,
-    error,
     isFetching,
   } = useGetHistoryQuery(page);
 
@@ -17,14 +16,14 @@ const RequestHistory = () => {
 
   if (isLoading || isFetching) {
     content = (
-      <div className="flex w-full justify-center">
+      <div className="flex w-full justify-center mt-6">
         <Spinner />
       </div>
     );
   } else if (isError) {
     content = (
       <div className="flex w-full justify-center mt-6">
-        <p>Error: {JSON.stringify(error)}</p>
+        <p>Error</p>
       </div>
     );
   } else if (history.count === 0) {
@@ -34,7 +33,6 @@ const RequestHistory = () => {
       </div>
     );
   } else if (isSuccess) {
-    console.log("history", history);
     content = (
       <>
         <div className="overflow-x-auto">
