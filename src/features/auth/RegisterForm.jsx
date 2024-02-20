@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from "../../utils/regexPatterns";
 import useInput from "../../hooks/useInput";
 import { useRegisterMutation } from "./authApiSlice";
+import Spinner from "../../components/Spinner";
 
 const RegisterForm = () => {
   const emailRef = useRef();
@@ -83,109 +84,145 @@ const RegisterForm = () => {
   };
 
   return isLoading ? (
-    <p>Loading...</p>
+    <div className="flex w-full justify-center">
+      <Spinner />
+    </div>
   ) : (
-    <div className="container">
-      <div className="container cointainer-border-shadow">
+    <>
+      <div className="space-y-6 mb-2 flex w-full justify-center">
         <p
           ref={errorRef}
-          className={errorMessage ? "error" : "offscreen"}
+          className={
+            errorMessage
+              ? "block text-xl font-bold leading-6 text-red-700"
+              : "invisible"
+          }
           aria-live="asserive"
         >
           {errorMessage}
         </p>
-        <h1>Sign Up</h1>
-        <form className="container" onSubmit={handleSubmit}>
-          <label htmlFor="email">Email:</label>
-          <input
-            className="item"
-            type="email"
-            id="email"
-            ref={emailRef}
-            autoComplete="off"
-            name="email"
-            placeholder="Email"
-            {...emailAttribs}
-            required
-            aria-invalid={validEmail ? "false" : "true"}
-            aria-describedby="uidnote"
-            onFocus={() => setEmailFocus(true)}
-            onBlur={() => setEmailFocus(false)}
-          />
-          <p
-            id="uidnote"
-            className={emailFocus && email && !validEmail ? "show" : "hide"}
+      </div>
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        <div>
+          <label
+            className="block text-sm font-medium leading-6 text-gray-900"
+            htmlFor="email"
           >
+            Email Address
+          </label>
+          <div className="mt-2">
+            <input
+              type="email"
+              id="email"
+              ref={emailRef}
+              autoComplete="off"
+              name="email"
+              placeholder="email"
+              {...emailAttribs}
+              required
+              aria-invalid={validEmail ? "false" : "true"}
+              aria-describedby="uidnote"
+              onFocus={() => setEmailFocus(true)}
+              onBlur={() => setEmailFocus(false)}
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+        <div
+          className={
+            emailFocus && email && !validEmail
+              ? "flex w-full space-y-6 mb-2"
+              : "hidden"
+          }
+        >
+          <p id="uidnote" className="block text-s font-semibold leading-6">
             Please enter a valid email address.
           </p>
-          <label htmlFor="password">Password:</label>
-          <input
-            className="item"
-            id="password"
-            type="password"
-            name="password"
-            placeholder="password"
-            {...passwordAttribs}
-            required
-            aria-invalid={validPassword ? "false" : "true"}
-            aria-describedby="pwdnote"
-            onFocus={() => setPasswordFocus(true)}
-            onBlur={() => setPasswordFocus(false)}
-          />
-          <p
-            id="pwdnote"
-            className={passwordFocus && !validPassword ? "show" : "hide"}
+        </div>
+        <div>
+          <label
+            className="block test-sm font-medium leading-6 text-gray-900"
+            htmlFor="password"
           >
+            Password
+          </label>
+          <div className="mt-2">
+            <input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="password"
+              {...passwordAttribs}
+              required
+              aria-invalid={validPassword ? "false" : "true"}
+              aria-describedby="pwdnote"
+              onFocus={() => setPasswordFocus(true)}
+              onBlur={() => setPasswordFocus(false)}
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+        <div
+          className={
+            passwordFocus && !validPassword
+              ? "flex w-full space-y-6 mb-2"
+              : "hidden"
+          }
+        >
+          <p id="pwdnote" className="block text-s font-semibold leading-6">
             8 to 128 characters.
             <br />
             Must include one lowercase letter, one uppercase letter, one digit
             and one special character.
           </p>
-          <label htmlFor="confirm_password">Confirm Password:</label>
-          <input
-            className="item"
-            id="confirm_password"
-            type="password"
-            name="confirm_password"
-            placeholder="confirm password"
-            {...confirmPasswordAttribs}
-            required
-            aria-invalid={validConfirmPassword ? "false" : "true"}
-            aria-describedby="cpwdnote"
-            onFocus={() => setConfirmPasswordFocus(true)}
-            onBlur={() => setConfirmPasswordFocus(false)}
-          />
-          <p
-            id="cpwdnote"
-            className={
-              confirmPasswordFocus && !validConfirmPassword ? "show" : "hide"
-            }
+        </div>
+        <div>
+          <label
+            className="block test-sm font-medium leading-6 text-gray-900"
+            htmlFor="confirm_password"
           >
+            Confirm Password
+          </label>
+          <div className="mt-2">
+            <input
+              id="confirm_password"
+              type="password"
+              name="confirm_password"
+              placeholder="confirm password"
+              {...confirmPasswordAttribs}
+              required
+              aria-invalid={validConfirmPassword ? "false" : "true"}
+              aria-describedby="cpwdnote"
+              onFocus={() => setConfirmPasswordFocus(true)}
+              onBlur={() => setConfirmPasswordFocus(false)}
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+        <div
+          className={
+            confirmPasswordFocus && !validConfirmPassword
+              ? "flex w-full space-y-6 mb-2"
+              : "hidden"
+          }
+        >
+          <p id="cpwdnote" className="block text-s font-semibold leading-6">
             Passwords do not match.
           </p>
-          <button
-            className="item"
-            type="submit"
-            disabled={
-              !validEmail || !validPassword || !validConfirmPassword
-                ? true
-                : false
-            }
-          >
-            Sign Up
-          </button>
-        </form>
-        <p>
-          Already have an account? &nbsp;
-          <span>
-            <Link to="/signin">Sign In</Link>
-          </span>
-        </p>
-        <span>
-          <Link to="/">Back to Home page</Link>
-        </span>
-      </div>
-    </div>
+        </div>
+        <button
+          className="flex w-full justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm enabled:hover:bg-gray-500 focus-visible:outline focus-visible:otline-2 focus-visible:outline-offset-2 focus-visible:outline-grey-600 disabled:opacity-25"
+          type="submit"
+          disabled={
+            !validEmail || !validPassword || !validConfirmPassword
+              ? true
+              : false
+          }
+        >
+          Sign Up
+        </button>
+      </form>
+    </>
   );
 };
 

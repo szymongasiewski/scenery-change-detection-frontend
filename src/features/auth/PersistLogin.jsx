@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRefreshTokenMutation } from "./authApiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, setToken, selectToken } from "./authSlice";
+import Spinner from "../../components/Spinner";
 
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +38,17 @@ const PersistLogin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <>{isLoading ? <p>Loading...</p> : <Outlet />}</>;
+  return (
+    <>
+      {isLoading ? (
+        <div className="flex w-full justify-center">
+          <Spinner />
+        </div>
+      ) : (
+        <Outlet />
+      )}
+    </>
+  );
 };
 
 export default PersistLogin;

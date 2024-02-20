@@ -4,6 +4,7 @@ import { useState } from "react";
 import ResponseImage from "../../components/ResponseImage";
 import { changeDetectionApiSlice } from "./changeDetectionApiSlice";
 import { useDispatch } from "react-redux";
+import Spinner from "../../components/Spinner";
 
 const ChangeDetection = () => {
   const [image1, setImage1] = useState(null);
@@ -52,7 +53,9 @@ const ChangeDetection = () => {
         image2Preview={image2Preview}
       />
       {isLoading ? (
-        <p>Loading...</p>
+        <div className="flex w-full justify-center">
+          <Spinner />
+        </div>
       ) : responseImage ? (
         <ResponseImage imageUrl={responseImage} />
       ) : (
