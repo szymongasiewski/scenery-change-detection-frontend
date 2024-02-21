@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useRefreshTokenMutation } from "./authApiSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,6 +6,7 @@ import { setUser, setToken, selectToken } from "./authSlice";
 import Spinner from "../../components/Spinner";
 
 const PersistLogin = () => {
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const PersistLogin = () => {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading && location.pathname !== "/" ? (
         <div className="flex w-full justify-center mt-6">
           <Spinner />
         </div>

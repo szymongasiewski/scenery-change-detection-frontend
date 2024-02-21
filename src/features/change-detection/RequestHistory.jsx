@@ -54,12 +54,20 @@ const RequestHistory = () => {
                   </td>
                   <td className="px-6 py-3">
                     {item.input_images.length === 2 ? (
-                      <div className="flex justify-center">
+                      <div className="flex justify-center items-center">
                         <a className="px-1" href={item.input_images[0].image}>
-                          <img src={item.input_images[0].image} alt="wrong" />
+                          <img
+                            src={item.input_images[0].image}
+                            alt="wrong"
+                            className="max-h-72"
+                          />
                         </a>
                         <a className="px-1" href={item.input_images[1].image}>
-                          <img src={item.input_images[1].image} alt="wrong" />
+                          <img
+                            src={item.input_images[1].image}
+                            alt="wrong"
+                            className="max-h-72"
+                          />
                         </a>
                       </div>
                     ) : (
@@ -67,13 +75,19 @@ const RequestHistory = () => {
                     )}
                   </td>
                   <td className="px-6 py-3">
-                    {item.output_image === null ? (
-                      "No output"
-                    ) : (
-                      <a href={item.output_image.image}>
-                        <img src={item.output_image.image} alt="wrong" />
-                      </a>
-                    )}
+                    <div className="flex justify-center items-center">
+                      {item.output_image === null ? (
+                        "No output"
+                      ) : (
+                        <a href={item.output_image.image}>
+                          <img
+                            src={item.output_image.image}
+                            alt="wrong"
+                            className="max-h-72"
+                          />
+                        </a>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

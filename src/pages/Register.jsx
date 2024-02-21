@@ -9,7 +9,7 @@ const Register = () => {
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <Logo styles="mx-auto h-20 w-auto" imgPath={logoPath} />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 -tracking-tight text-black">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">
           Sign Up
         </h2>
       </div>
