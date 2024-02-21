@@ -1,119 +1,37 @@
-import { useRef, useState, useEffect } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import axios from "../api/axios";
-import useInput from "../hooks/useInput";
+import Logo from "../components/Logo";
+import LoginForm from "../features/auth/LoginForm";
+import { Link } from "react-router-dom";
+
+const logoPath = "logo-black.svg";
 
 const Login = () => {
-  const { setUser } = useAuth();
-
-  const emailRef = useRef();
-  const errorRef = useRef();
-
-  const [email, resetEmail, emailAttribs] = useInput("");
-  const [password, resetPassword, passwordAttribs] = useInput("");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = location?.state?.from?.pathname || "/";
-
-  useEffect(() => {
-    emailRef.current.focus();
-  }, []);
-
-  useEffect(() => {
-    setErrorMessage("");
-  }, [email, password]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "login/",
-        JSON.stringify({
-          email: email,
-          password: password,
-        }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        },
-      );
-      const accessToken = response?.data?.access_token;
-      const userEmail = response?.data?.email;
-      setUser({ userEmail, accessToken });
-      resetEmail();
-      resetPassword();
-
-      if (response.status === 200) {
-        navigate(from, { replace: true });
-      }
-    } catch (error) {
-      if (!error?.response) {
-        setErrorMessage("Server is not responding");
-      } else if (error?.response?.status === 401) {
-        setErrorMessage("Invalid email or password");
-      } else if (error?.response?.status === 400) {
-        setErrorMessage("Fields cannot be empty");
-      } else {
-        setErrorMessage("Something went wrong");
-      }
-      errorRef.current.focus();
-    }
-  };
-
   return (
-    <div className="container">
-      <div>
-        <h1>LOGO</h1>
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <Logo styles="mx-auto h-20 w-auto" imgPath={logoPath} />
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">
+          Sign In
+        </h2>
       </div>
-      <div className="container cointainer-border-shadow">
-        <p
-          ref={errorRef}
-          className={errorMessage ? "error" : "offscreen"}
-          aria-live="asserive"
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <LoginForm />
+      </div>
+      <p className="mt-10 text-center text-sm text-gray-500">
+        Do not have an account? &nbsp;
+        <Link
+          className="font-semibold leading-6 text-gray-600 hover:text-gray-500"
+          to="/signup"
         >
-          {errorMessage}
-        </p>
-        <h1>Sign In</h1>
-        <form className="container" onSubmit={handleSubmit}>
-          <label htmlFor="email">Email:</label>
-          <input
-            className="item"
-            type="email"
-            id="email"
-            ref={emailRef}
-            name="email"
-            placeholder="email"
-            autoComplete="off"
-            {...emailAttribs}
-            required
-          />
-          <label htmlFor="password">Password:</label>
-          <input
-            className="item"
-            type="password"
-            id="password"
-            name="password"
-            placeholder="password"
-            {...passwordAttribs}
-            required
-          />
-          <button className="item" type="submit">
-            Sign In
-          </button>
-          <p>
-            Do not have an account? &nbsp;
-            <span>
-              <Link to="/signup">Sign Up</Link>
-            </span>
-          </p>
-          <span>
-            <Link to="/">Back to Home page</Link>
-          </span>
-        </form>
+          Sign Up
+        </Link>
+      </p>
+      <div className="mt-10 flex items-center justify-center">
+        <Link
+          to="/"
+          className="rounded-md bg-gray-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+        >
+          Go back home
+        </Link>
       </div>
     </div>
   );

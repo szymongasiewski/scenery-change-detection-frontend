@@ -1,11 +1,12 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import { useSelector } from "react-redux";
+import { selectToken } from "./authSlice";
 
 const RequireAuth = () => {
-  const { user } = useAuth();
+  const token = useSelector(selectToken);
   const location = useLocation();
 
-  return user?.userEmail ? (
+  return token ? (
     <Outlet />
   ) : (
     <Navigate to="/signin" state={{ from: location }} replace />

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   box-sizing: border-box;
 }
@@ -8,7 +12,7 @@ body {
   margin: 0;
 }
 
-header {
+.n-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -16,19 +20,14 @@ header {
   color: white;
 }
 
-.logo {
-  padding: 5px;
-  margin: 10px;
-}
-
-nav a {
+.nav-a {
   padding: 10px;
   margin: 10px;
   text-decoration: none;
   color: white;
 }
 
-nav a:hover {
+.nav-a:hover {
   color: gray;
 }
 
@@ -41,31 +40,4 @@ nav a:hover {
 .item {
   padding: 10px;
   margin: 5px;
-}
-
-.hide {
-  display: none;
-}
-
-.show {
-  display: block;
-}
-
-.offscreen {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-
-.cointainer-border-shadow {
-  border: 1px solid black;
-  border-radius: 50px;
-  padding: 50px;
-  margin: 50px;
-  box-shadow: 5px 5px 5px gray;
 }
