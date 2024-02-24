@@ -1,25 +1,37 @@
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Error from "./pages/Error";
-import SharedLayout from "./pages/SharedLayout";
-import { AuthProvider } from "./context/AuthContext";
+import SharedLayout from "./components/SharedLayout";
+import RequireAuth from "./features/auth/RequireAuth";
+import History from "./pages/History";
+import PersistLogin from "./features/auth/PersistLogin";
+import Profile from "./pages/Profile";
+import DeleteAccount from "./pages/DeleteAccount";
+import ChangePassword from "./pages/ChangePassword";
+import ChangeDetectionApp from "./pages/ChangeDetectionApp";
 
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<SharedLayout />}>
+      <Routes>
+        <Route path="signup" element={<Register />} />
+        <Route path="signin" element={<Login />} />
+        <Route path="/" element={<SharedLayout />}>
+          <Route element={<PersistLogin />}>
             <Route index element={<Home />} />
-            <Route path="signup" element={<Register />} />
-            <Route path="signin" element={<Login />} />
-            <Route path="*" element={<Error />} />
+            <Route element={<RequireAuth />}>
+              <Route path="change-detection" element={<ChangeDetectionApp />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="delete-account" element={<DeleteAccount />} />
+              <Route path="change-password" element={<ChangePassword />} />
+              <Route path="history" element={<History />} />
+            </Route>
           </Route>
-        </Routes>
-      </AuthProvider>
+        </Route>
+        <Route path="*" element={<Error />} />
+      </Routes>
     </BrowserRouter>
   );
 }
