@@ -49,7 +49,7 @@ const Navbar = () => {
               <>
                 <Link
                   className="rounded-md py-2 px-3 hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
-                  to="/images"
+                  to="/change-detection"
                 >
                   Detection
                 </Link>
@@ -124,7 +124,7 @@ const Navbar = () => {
             <>
               <Link
                 className="rounded-md py-2 px-3 hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
-                to="/images"
+                to="/change-detection"
               >
                 Detection
               </Link>
@@ -166,28 +166,6 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
-    // <header className="n-header">
-    //   <Link to="/" className="flex items-center">
-    //     <Logo styles="mx-auto h-20 w-auto py-6 px-6" imgPath={imgPath} />
-    //     Scenery Change Detection
-    //   </Link>
-    //   <nav>
-    //     <Link to="/">Home</Link>
-    //     {email ? (
-    //       <>
-    //         <Link to="/images">Change Detection</Link>
-    //         <Link to="/history">History</Link>
-    //         <Link to="/profile">{email}</Link>
-    //         <a onClick={signOut}>Logout</a>
-    //       </>
-    //     ) : (
-    //       <>
-    //         <Link to="/signin">Sign in</Link>
-    //         <Link to="/signup">Sign up</Link>
-    //       </>
-    //     )}
-    //   </nav>
-    // </header>
   );
 };
 

@@ -1,4 +1,3 @@
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -23,7 +22,7 @@ function App() {
           <Route element={<PersistLogin />}>
             <Route index element={<Home />} />
             <Route element={<RequireAuth />}>
-              <Route path="images" element={<ChangeDetectionApp />} />
+              <Route path="change-detection" element={<ChangeDetectionApp />} />
               <Route path="profile" element={<Profile />} />
               <Route path="delete-account" element={<DeleteAccount />} />
               <Route path="change-password" element={<ChangePassword />} />

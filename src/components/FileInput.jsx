@@ -50,18 +50,6 @@ const FileInput = ({ label, onChange, imagePreview }) => {
         </>
       )}
     </div>
-    // <div className="flex flex-col justify-center items-center">
-    //   <input className="" type="file" onChange={onChange} accept="image/*" />
-    //   <label className="">{label}</label>
-    //   {imagePreview && (
-    //     <img
-    //       className=""
-    //       src={imagePreview}
-    //       alt="preview"
-    //       style={{ width: "200px" }}
-    //     />
-    //   )}
-    // </div>
   );
 };
 

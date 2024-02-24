@@ -11,33 +11,3 @@ body {
   padding: 0;
   margin: 0;
 }
-
-.n-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #333333;
-  color: white;
-}
-
-.nav-a {
-  padding: 10px;
-  margin: 10px;
-  text-decoration: none;
-  color: white;
-}
-
-.nav-a:hover {
-  color: gray;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.item {
-  padding: 10px;
-  margin: 5px;
-}
