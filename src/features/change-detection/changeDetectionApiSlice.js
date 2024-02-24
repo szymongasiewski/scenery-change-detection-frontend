@@ -8,7 +8,7 @@ export const changeDetectionApiSlice = apiSlice.injectEndpoints({
     }),
     changeDetection: builder.mutation({
       query: (formData) => ({
-        url: "testimg/",
+        url: "change-detection/",
         method: "POST",
         body: formData,
       }),

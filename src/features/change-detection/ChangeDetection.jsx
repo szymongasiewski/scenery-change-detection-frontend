@@ -5,10 +5,12 @@ import ResponseImage from "../../components/ResponseImage";
 import { changeDetectionApiSlice } from "./changeDetectionApiSlice";
 import { useDispatch } from "react-redux";
 import Spinner from "../../components/Spinner";
+import useInput from "../../hooks/useInput";
 
 const ChangeDetection = () => {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
+  const [blockSize, resetBlockSize, blockSizeAtribs] = useInput("");
   const [image1Preview, setImage1Preview] = useState(null);
   const [image2Preview, setImage2Preview] = useState(null);
   const [responseImage, setResponseImage] = useState(null);
@@ -25,7 +27,6 @@ const ChangeDetection = () => {
 
   const handleImage1Change = (e) => {
     const file = e.target.files[0];
-    console.log("img1");
     if (file) {
       setImage1(file);
       setImage1Preview(URL.createObjectURL(file));
@@ -34,7 +35,6 @@ const ChangeDetection = () => {
 
   const handleImage2Change = (e) => {
     const file = e.target.files[0];
-    console.log("img2");
     if (file) {
       setImage2(file);
       setImage2Preview(URL.createObjectURL(file));
@@ -51,11 +51,15 @@ const ChangeDetection = () => {
     const formData = new FormData();
     formData.append("input_image1", image1);
     formData.append("input_image2", image2);
+    if (blockSize !== null && blockSize >= 2 && blockSize <= 10) {
+      formData.append("block_size", blockSize);
+    }
     setResponseImage(null);
 
     try {
       const response = await changeDetection(formData).unwrap();
       setResponseImage("http://127.0.0.1:8000" + response.output_image.image);
+      resetBlockSize();
     } catch (error) {
       if (!error?.status) {
         setErrorMessage("Server is not responding");
@@ -91,10 +95,13 @@ const ChangeDetection = () => {
         image1Preview={image1Preview}
         onImage2Change={handleImage2Change}
         image2Preview={image2Preview}
+        blockSizeAtribs={blockSizeAtribs}
       />
       {isLoading ? (
-        <div className="flex w-full justify-center">
+        <div className="flex flex-col justify-center items-center">
+          <h3 className="mb-4 font-semibold">Response Image</h3>
           <Spinner />
+          <p className="mt-4">Processing images...</p>
         </div>
       ) : responseImage ? (
         <div className="flex flex-col justify-center items-center">

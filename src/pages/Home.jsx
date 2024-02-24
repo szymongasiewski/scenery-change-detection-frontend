@@ -21,8 +21,10 @@ const Home = () => {
             className="underline text-blue-500 hover:text-blue-700 focus:outline-none focus-visible:underline focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-50"
             href="https://wi.pb.edu.pl/en/"
           >
-            Faculty of Computer Science, Białystok University of Technology.
+            Faculty of Computer Science, Białystok University of Technology
           </a>
+          . The application is designed to detect changes in satellite images
+          over time.
         </p>
       </div>
       {!email && (
