@@ -58,7 +58,7 @@ const ChangeDetection = () => {
 
     try {
       const response = await changeDetection(formData).unwrap();
-      setResponseImage("http://127.0.0.1:8000" + response.output_image.image);
+      setResponseImage(response.output_image.image);
       resetBlockSize();
     } catch (error) {
       if (!error?.status) {
