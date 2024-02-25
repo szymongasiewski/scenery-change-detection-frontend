@@ -60,6 +60,7 @@ const ChangeDetection = () => {
       const response = await changeDetection(formData).unwrap();
       setResponseImage(response.output_image.image);
       resetBlockSize();
+      setErrorMessage("");
     } catch (error) {
       if (!error?.status) {
         setErrorMessage("Server is not responding");
