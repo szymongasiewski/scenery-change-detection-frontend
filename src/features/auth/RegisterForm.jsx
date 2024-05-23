@@ -70,7 +70,8 @@ const RegisterForm = () => {
       resetEmail();
       resetPassword();
       resetConfirmPassword();
-      navigate("/signin");
+      const id = response.data.id;
+      navigate(`/verify-email/${id}`);
     } catch (error) {
       if (!error?.status) {
         setErrorMessage("Network error.");

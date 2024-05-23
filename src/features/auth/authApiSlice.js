@@ -42,6 +42,20 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: { ...body },
       }),
     }),
+    verifyEmail: builder.mutation({
+      query: (body) => ({
+        url: "verify-email/",
+        method: "POST",
+        body: { ...body },
+      }),
+    }),
+    resendOtp: builder.mutation({
+      query: (body) => ({
+        url: "resend-otp/",
+        method: "POST",
+        body: { ...body },
+      }),
+    }),
   }),
 });
 
@@ -52,4 +66,6 @@ export const {
   useRefreshTokenMutation,
   useDeleteAccountMutation,
   useChangePasswordMutation,
+  useVerifyEmailMutation,
+  useResendOtpMutation,
 } = authApiSlice;

@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import DeleteAccount from "./pages/DeleteAccount";
 import ChangePassword from "./pages/ChangePassword";
 import ChangeDetectionApp from "./pages/ChangeDetectionApp";
+import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="signup" element={<Register />} />
         <Route path="signin" element={<Login />} />
+        <Route path="verify-email/:id" element={<VerifyEmail />}/>
         <Route path="/" element={<SharedLayout />}>
           <Route element={<PersistLogin />}>
             <Route index element={<Home />} />
