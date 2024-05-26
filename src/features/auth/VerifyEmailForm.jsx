@@ -1,6 +1,5 @@
 import useInput from "../../hooks/useInput";
-import { useEffect, useRef } from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useResendOtpMutation, useVerifyEmailMutation } from "./authApiSlice";
 import Spinner from "../../components/Spinner";

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import FileInput from "./FileInput";
+import FileInput from "../../components/FileInput";
 
 const ChangeDetectionForm = ({
   onSubmit,
