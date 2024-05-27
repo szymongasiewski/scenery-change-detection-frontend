@@ -96,7 +96,7 @@ const VerifyEmailForm = ({ id }) => {
           ref={errorRef}
           className={
             errorMessage
-              ? "block text-xl font-bold leading-6 text-gray-700"
+              ? "block text-xl font-bold leading-6 text-red-700"
               : "invisible"
           }
           aria-live="asserive"
