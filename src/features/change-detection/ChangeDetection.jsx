@@ -1,4 +1,4 @@
-import ChangeDetectionForm from "../../components/ChangeDetectionForm";
+import ChangeDetectionForm from "./ChangeDetectionForm";
 import { useChangeDetectionMutation } from "./changeDetectionApiSlice";
 import { useState, useRef, useEffect } from "react";
 import ResponseImage from "../../components/ResponseImage";
