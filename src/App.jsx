@@ -11,6 +11,9 @@ import Profile from "./pages/Profile";
 import DeleteAccount from "./pages/DeleteAccount";
 import ChangePassword from "./pages/ChangePassword";
 import ChangeDetectionApp from "./pages/ChangeDetectionApp";
+import VerifyEmail from "./pages/VerifyEmail";
+import PasswordResetRequest from "./pages/PasswordResetRequest";
+import PasswordResetConfirm from "./pages/PasswordResetConfirm";
 
 function App() {
   return (
@@ -18,6 +21,12 @@ function App() {
       <Routes>
         <Route path="signup" element={<Register />} />
         <Route path="signin" element={<Login />} />
+        <Route path="verify-email/:id" element={<VerifyEmail />} />
+        <Route path="password-reset" element={<PasswordResetRequest />} />
+        <Route
+          path="password-reset-confirm/:uid/:token"
+          element={<PasswordResetConfirm />}
+        />
         <Route path="/" element={<SharedLayout />}>
           <Route element={<PersistLogin />}>
             <Route index element={<Home />} />

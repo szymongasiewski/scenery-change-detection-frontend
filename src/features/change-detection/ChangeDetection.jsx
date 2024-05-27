@@ -1,4 +1,4 @@
-import ChangeDetectionForm from "../../components/ChangeDetectionForm";
+import ChangeDetectionForm from "./ChangeDetectionForm";
 import { useChangeDetectionMutation } from "./changeDetectionApiSlice";
 import { useState, useRef, useEffect } from "react";
 import ResponseImage from "../../components/ResponseImage";
@@ -6,6 +6,9 @@ import { changeDetectionApiSlice } from "./changeDetectionApiSlice";
 import { useDispatch } from "react-redux";
 import Spinner from "../../components/Spinner";
 import useInput from "../../hooks/useInput";
+
+const MAX_IMAGE_SIZE = 1024;
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 
 const ChangeDetection = () => {
   const [image1, setImage1] = useState(null);
@@ -25,19 +28,53 @@ const ChangeDetection = () => {
     setErrorMessage("");
   }, [image1, image2]);
 
-  const handleImage1Change = (e) => {
+  const validateImage = (file) => {
+    return new Promise((resolve, reject) => {
+      if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+        reject("Only JPEG, JPG and PNG images are allowed");
+      }
+
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        if (img.width > MAX_IMAGE_SIZE || img.height > MAX_IMAGE_SIZE) {
+          reject(
+            `Image size should not exceed ${MAX_IMAGE_SIZE}x${MAX_IMAGE_SIZE}`,
+          );
+        } else {
+          resolve();
+        }
+      };
+    });
+  };
+
+  const handleImage1Change = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage1(file);
-      setImage1Preview(URL.createObjectURL(file));
+      try {
+        await validateImage(file);
+        setImage1(file);
+        setImage1Preview(URL.createObjectURL(file));
+        setErrorMessage("");
+      } catch (error) {
+        setErrorMessage(error);
+        errorRef.current.focus();
+      }
     }
   };
 
-  const handleImage2Change = (e) => {
+  const handleImage2Change = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage2(file);
-      setImage2Preview(URL.createObjectURL(file));
+      try {
+        await validateImage(file);
+        setImage2(file);
+        setImage2Preview(URL.createObjectURL(file));
+        setErrorMessage("");
+      } catch (error) {
+        setErrorMessage(error);
+        errorRef.current.focus();
+      }
     }
   };
 
@@ -51,7 +88,7 @@ const ChangeDetection = () => {
     const formData = new FormData();
     formData.append("input_image1", image1);
     formData.append("input_image2", image2);
-    if (blockSize !== null && blockSize >= 2 && blockSize <= 10) {
+    if (blockSize !== null && blockSize >= 2 && blockSize <= 5) {
       formData.append("block_size", blockSize);
     }
     setResponseImage(null);
@@ -65,9 +102,17 @@ const ChangeDetection = () => {
       if (!error?.status) {
         setErrorMessage("Server is not responding");
       } else if (error?.status === 400) {
-        setErrorMessage(
-          "Invalid file format. Only JPEG, JPG and PNG are supported.",
-        );
+        setErrorMessage(() => {
+          if (error?.data?.input_image1?.[0]) {
+            return error?.data?.input_image1?.[0];
+          } else if (error?.data?.input_image2?.[0]) {
+            return error?.data?.input_image2?.[0];
+          } else if (error?.data?.block_size?.[0]) {
+            return error?.data?.block_size?.[0];
+          } else {
+            return "Something went wrong";
+          }
+        });
       } else {
         setErrorMessage("Something went wrong");
       }
