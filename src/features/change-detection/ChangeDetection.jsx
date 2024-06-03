@@ -17,6 +17,7 @@ const ChangeDetection = () => {
   const [image1Preview, setImage1Preview] = useState(null);
   const [image2Preview, setImage2Preview] = useState(null);
   const [responseImage, setResponseImage] = useState(null);
+  const [percentageOfChange, setPercentageOfChange] = useState(null);
 
   const errorRef = useRef();
   const [errorMessage, setErrorMessage] = useState("");
@@ -97,6 +98,7 @@ const ChangeDetection = () => {
     try {
       const response = await changeDetection(formData).unwrap();
       setResponseImage(response.output_image.image);
+      setPercentageOfChange(response.percentage_of_change);
       resetBlockSize();
     } catch (error) {
       if (!error?.status) {
@@ -152,6 +154,9 @@ const ChangeDetection = () => {
       ) : responseImage ? (
         <div className="flex flex-col justify-center items-center">
           <h3 className="mb-4 font-semibold">Response Image</h3>
+          <p className="mb-4 font-semibold">
+            Percentage of change: {percentageOfChange.toFixed(2)}%
+          </p>
           <ResponseImage imageUrl={responseImage} />
         </div>
       ) : (
