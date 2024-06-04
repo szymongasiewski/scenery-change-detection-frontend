@@ -9,11 +9,22 @@ import useInput from "../../hooks/useInput";
 
 const MAX_IMAGE_SIZE = 1024;
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
+const validOperations = ["dilate", "erode", "opening", "closing"];
 
 const ChangeDetection = () => {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [blockSize, resetBlockSize, blockSizeAtribs] = useInput("");
+  const [
+    numberOfIterations,
+    resetNumberOfIterations,
+    numberOfIterationsAtribs,
+  ] = useInput("");
+  const [
+    morphologicalOperation,
+    resetMorphologicalOperation,
+    morphologicalOperationAtribs,
+  ] = useInput("");
   const [image1Preview, setImage1Preview] = useState(null);
   const [image2Preview, setImage2Preview] = useState(null);
   const [responseImage, setResponseImage] = useState(null);
@@ -92,6 +103,19 @@ const ChangeDetection = () => {
     if (blockSize !== null && blockSize >= 2 && blockSize <= 5) {
       formData.append("block_size", blockSize);
     }
+    if (
+      morphologicalOperation !== null &&
+      validOperations.includes(morphologicalOperation)
+    ) {
+      formData.append("morphological_operation", morphologicalOperation);
+    }
+    if (
+      numberOfIterations !== null &&
+      numberOfIterations >= 1 &&
+      numberOfIterations <= 3
+    ) {
+      formData.append("morphological_iterations", numberOfIterations);
+    }
     setResponseImage(null);
     setErrorMessage("");
 
@@ -100,6 +124,8 @@ const ChangeDetection = () => {
       setResponseImage(response.output_image.image);
       setPercentageOfChange(response.percentage_of_change);
       resetBlockSize();
+      resetMorphologicalOperation();
+      resetNumberOfIterations();
     } catch (error) {
       if (!error?.status) {
         setErrorMessage("Server is not responding");
@@ -111,6 +137,10 @@ const ChangeDetection = () => {
             return error?.data?.input_image2?.[0];
           } else if (error?.data?.block_size?.[0]) {
             return error?.data?.block_size?.[0];
+          } else if (error?.data?.morphological_operation?.[0]) {
+            return error?.data?.morphological_operation?.[0];
+          } else if (error?.data?.morphological_iterations?.[0]) {
+            return error?.data?.morphological_iterations?.[0];
           } else {
             return "Something went wrong";
           }
@@ -144,6 +174,8 @@ const ChangeDetection = () => {
         onImage2Change={handleImage2Change}
         image2Preview={image2Preview}
         blockSizeAtribs={blockSizeAtribs}
+        morphologicalOperationsAtribs={morphologicalOperationAtribs}
+        numberOfIterationsAtribs={numberOfIterationsAtribs}
       />
       {isLoading ? (
         <div className="flex flex-col justify-center items-center">
