@@ -14,6 +14,10 @@ const validOperations = ["dilate", "erode", "opening", "closing"];
 const ChangeDetection = () => {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
+  const [algorithm, resetAlgorithm, algorithmAtribs] = useInput("");
+  const [parameters, resetParameters, parametersAtribs] = useInput("");
+
+  //delete the following lines
   const [blockSize, resetBlockSize, blockSizeAtribs] = useInput("");
   const [
     numberOfIterations,
@@ -25,10 +29,15 @@ const ChangeDetection = () => {
     resetMorphologicalOperation,
     morphologicalOperationAtribs,
   ] = useInput("");
+  //delete the above lines
+
   const [image1Preview, setImage1Preview] = useState(null);
   const [image2Preview, setImage2Preview] = useState(null);
+
+  //replece the following lines with response object
   const [responseImage, setResponseImage] = useState(null);
   const [percentageOfChange, setPercentageOfChange] = useState(null);
+  //replace the above lines with response object
 
   const errorRef = useRef();
   const [errorMessage, setErrorMessage] = useState("");
@@ -173,9 +182,13 @@ const ChangeDetection = () => {
         image1Preview={image1Preview}
         onImage2Change={handleImage2Change}
         image2Preview={image2Preview}
+        //delete the following lines
         blockSizeAtribs={blockSizeAtribs}
         morphologicalOperationsAtribs={morphologicalOperationAtribs}
         numberOfIterationsAtribs={numberOfIterationsAtribs}
+        //delete the above lines
+        algorithmAtribs={algorithmAtribs}
+        parametersAtribs={parametersAtribs}
       />
       {isLoading ? (
         <div className="flex flex-col justify-center items-center">
