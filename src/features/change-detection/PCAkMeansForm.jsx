@@ -3,7 +3,7 @@ import React from "react";
 const PCAkMeansForm = () => {
   return (
     <div>
-      <div>PCAkMeans test</div>
+      <div>PCAkMeans testtest</div>
     </div>
   );
 };
