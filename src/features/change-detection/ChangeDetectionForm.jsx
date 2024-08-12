@@ -27,7 +27,7 @@ const ChangeDetectionForm = ({
   numberOfIterationsAtribs,
   //delete the above lines
   algorithmAtribs,
-  parametersAtribs,
+  onParametersChange,
 }) => {
   return (
     <div className="mt-5">
@@ -108,7 +108,7 @@ const ChangeDetectionForm = ({
         {(() => {
           switch (algorithmAtribs.value) {
             case "pca_kmeans":
-              return <PCAkMeansForm />;
+              return <PCAkMeansForm onParametersChange={onParametersChange} />;
             case "img_diff":
               return <ImgDiffForm />;
             default:

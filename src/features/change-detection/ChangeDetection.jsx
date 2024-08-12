@@ -15,7 +15,11 @@ const ChangeDetection = () => {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [algorithm, resetAlgorithm, algorithmAtribs] = useInput("");
-  const [parameters, resetParameters, parametersAtribs] = useInput("");
+  const [parameters, setParameters] = useState({});
+
+  const handleParametersChange = (name, value) => {
+    setParameters((prev) => ({ ...prev, [name]: value }));
+  };
 
   //delete the following lines
   const [blockSize, resetBlockSize, blockSizeAtribs] = useInput("");
@@ -188,7 +192,7 @@ const ChangeDetection = () => {
         numberOfIterationsAtribs={numberOfIterationsAtribs}
         //delete the above lines
         algorithmAtribs={algorithmAtribs}
-        parametersAtribs={parametersAtribs}
+        onParametersChange={handleParametersChange}
       />
       {isLoading ? (
         <div className="flex flex-col justify-center items-center">
