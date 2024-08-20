@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useInput from "../../hooks/useInput";
 import MorphologicalOperations from "./MorphologicalOperations";
 import PropTypes from "prop-types";
@@ -6,10 +6,19 @@ import BoundingBoxes from "./BoundingBoxes";
 
 const PCAkMeansForm = ({ onParametersChange }) => {
   const [blockSize, , blockSizeAtribs] = useInput("");
+  const [blockSizeError, setBlockSizeError] = useState("");
 
   useEffect(() => {
     onParametersChange("blockSize", blockSize);
   }, [blockSize, onParametersChange]);
+
+  useEffect(() => {
+    if (blockSize !== "" && (blockSize < 2 || blockSize > 5)) {
+      setBlockSizeError("Block size should be between 2 and 5");
+    } else {
+      setBlockSizeError("");
+    }
+  }, [blockSize]);
 
   return (
     <div>
@@ -30,6 +39,9 @@ const PCAkMeansForm = ({ onParametersChange }) => {
           min={2}
           {...blockSizeAtribs}
         />
+        {blockSizeError ? (
+          <p className="text-red-500 text-sm">{blockSizeError}</p>
+        ) : null}
       </div>
       <MorphologicalOperations onParametersChange={onParametersChange} />
       <BoundingBoxes onParametersChange={onParametersChange} />

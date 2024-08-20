@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useInput from "../../hooks/useInput";
 
 const operationOptions = [
@@ -21,6 +21,9 @@ const MorphologicalOperations = ({ onParametersChange }) => {
   const [kernelShape, , kernelShapeAtribs] = useInput("");
   const [kernelSize, , kernelSizeAtribs] = useInput("");
 
+  const [numberOfIterationsError, setNumberOfIterationsError] = useState("");
+  const [kernelSizeError, setKernelSizeError] = useState("");
+
   useEffect(() => {
     onParametersChange("morphologicalOperation", morphologicalOperation);
   }, [morphologicalOperation, onParametersChange]);
@@ -36,6 +39,27 @@ const MorphologicalOperations = ({ onParametersChange }) => {
   useEffect(() => {
     onParametersChange("kernelSize", kernelSize);
   }, [kernelSize, onParametersChange]);
+
+  useEffect(() => {
+    if (
+      numberOfIterations !== "" &&
+      (numberOfIterations < 1 || numberOfIterations > 3)
+    ) {
+      setNumberOfIterationsError(
+        "Number of iterations should be between 1 and 3",
+      );
+    } else {
+      setNumberOfIterationsError("");
+    }
+  }, [numberOfIterations]);
+
+  useEffect(() => {
+    if (kernelSize !== "" && (kernelSize < 3 || kernelSize > 5)) {
+      setKernelSizeError("Kernel size should be between 3 and 5");
+    } else {
+      setKernelSizeError("");
+    }
+  }, [kernelSize]);
 
   return (
     <div>
@@ -79,6 +103,9 @@ const MorphologicalOperations = ({ onParametersChange }) => {
               min={1}
               {...numberOfIterationsAtribs}
             />
+            {numberOfIterationsError ? (
+              <p className="text-red-500 text-sm">{numberOfIterationsError}</p>
+            ) : null}
           </div>
           <div className="flex flex-col justify-center items-center py-2">
             <label
@@ -113,12 +140,15 @@ const MorphologicalOperations = ({ onParametersChange }) => {
                 className="block w-1/2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
                 id="kernelsize"
                 name="kernelsize"
-                placeholder="Provide kernel size"
+                placeholder="Provide kernel size (3-5)"
                 type="number"
                 min={3}
                 max={5}
                 {...kernelSizeAtribs}
               />
+              {kernelSizeError ? (
+                <p className="text-red-500 text-sm">{kernelSizeError}</p>
+              ) : null}
             </div>
           ) : null}
         </>
