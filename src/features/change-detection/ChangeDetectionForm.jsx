@@ -110,7 +110,7 @@ const ChangeDetectionForm = ({
             case "pca_kmeans":
               return <PCAkMeansForm onParametersChange={onParametersChange} />;
             case "img_diff":
-              return <ImgDiffForm />;
+              return <ImgDiffForm onParametersChange={onParametersChange} />;
             default:
               return null;
           }
