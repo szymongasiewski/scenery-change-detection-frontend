@@ -24,8 +24,6 @@ const ChangeDetection = () => {
     setParameters({});
   };
 
-  console.log(parameters);
-
   const [image1Preview, setImage1Preview] = useState(null);
   const [image2Preview, setImage2Preview] = useState(null);
 
@@ -33,6 +31,8 @@ const ChangeDetection = () => {
   const [responseImage, setResponseImage] = useState(null);
   const [percentageOfChange, setPercentageOfChange] = useState(null);
   //replace the above lines with response object
+
+  const [responseObject, setResponseObject] = useState(null);
 
   const errorRef = useRef();
   const [errorMessage, setErrorMessage] = useState("");
@@ -128,9 +128,7 @@ const ChangeDetection = () => {
 
     setResponseImage(null);
     setErrorMessage("");
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    setResponseObject(null);
 
     try {
       const response = await changeDetection(formData).unwrap();
@@ -138,28 +136,23 @@ const ChangeDetection = () => {
       setPercentageOfChange(response.percentage_of_change);
       resetAlgorithm();
       resetParameters();
+      setResponseObject(response);
     } catch (error) {
       if (!error?.status) {
         setErrorMessage("Server is not responding");
       } else if (error?.status === 400) {
         setErrorMessage(() => {
           if (error?.data?.input_image1?.[0]) {
-            console.log("img1");
             return error?.data?.input_image1?.[0];
           } else if (error?.data?.input_image2?.[0]) {
-            console.log("img2");
             return error?.data?.input_image2?.[0];
           } else if (error?.data?.block_size?.[0]) {
-            console.log("block_size");
             return error?.data?.block_size?.[0];
           } else if (error?.data?.morphological_operation?.[0]) {
-            console.log("morphological_operation");
             return error?.data?.morphological_operation?.[0];
           } else if (error?.data?.morphological_iterations?.[0]) {
-            console.log("morphological_iterations");
             return error?.data?.morphological_iterations?.[0];
           } else {
-            console.log(error);
             return "Something went wrong";
           }
         });
@@ -194,23 +187,32 @@ const ChangeDetection = () => {
         algorithmAtribs={algorithmAtribs}
         onParametersChange={handleParametersChange}
       />
-      {isLoading ? (
-        <div className="flex flex-col justify-center items-center">
-          <h3 className="mb-4 font-semibold">Response Image</h3>
-          <Spinner />
-          <p className="mt-4">Processing images...</p>
-        </div>
-      ) : responseImage ? (
-        <div className="flex flex-col justify-center items-center">
-          <h3 className="mb-4 font-semibold">Response Image</h3>
-          <p className="mb-4 font-semibold">
-            Percentage of change: {percentageOfChange.toFixed(2)}%
-          </p>
-          <ResponseImage imageUrl={responseImage} />
-        </div>
-      ) : (
-        <div className="flex flex-col justify-center items-center">
-          <h3 className="mb-4 font-semibold">Response Image</h3>
+      <div className="flex flex-col justify-center items-center">
+        <h3 className="mb-4 font-semibold">Response</h3>
+        {isLoading ? (
+          <>
+            <Spinner />
+            <p className="mt-4">Processing images...</p>
+          </>
+        ) : responseObject ? (
+          <>
+            {responseObject.percentage_of_change && (
+              <p className="text-lg font-semibold">
+                Percentage of change: {responseObject.percentage_of_change}%
+              </p>
+            )}
+            {responseObject.output_image &&
+              responseObject.output_image.image && (
+                <ResponseImage imageUrl={responseObject.output_image.image} />
+              )}
+            {responseObject.boxes1 && responseObject.boxes1.image && (
+              <ResponseImage imageUrl={responseObject.boxes1.image} />
+            )}
+            {responseObject.boxes2 && responseObject.boxes2.image && (
+              <ResponseImage imageUrl={responseObject.boxes2.image} />
+            )}
+          </>
+        ) : (
           <div className="bg-gray-200 p-6 border-dashed border-2 rounded-md border-gray-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -227,8 +229,8 @@ const ChangeDetection = () => {
               />
             </svg>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
