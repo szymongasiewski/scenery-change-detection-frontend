@@ -9,7 +9,6 @@ import useInput from "../../hooks/useInput";
 
 const MAX_IMAGE_SIZE = 1024;
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
-const validOperations = ["dilate", "erode", "opening", "closing"];
 
 const ChangeDetection = () => {
   const [image1, setImage1] = useState(null);
@@ -21,19 +20,11 @@ const ChangeDetection = () => {
     setParameters((prev) => ({ ...prev, [name]: value }));
   };
 
-  //delete the following lines
-  const [blockSize, resetBlockSize, blockSizeAtribs] = useInput("");
-  const [
-    numberOfIterations,
-    resetNumberOfIterations,
-    numberOfIterationsAtribs,
-  ] = useInput("");
-  const [
-    morphologicalOperation,
-    resetMorphologicalOperation,
-    morphologicalOperationAtribs,
-  ] = useInput("");
-  //delete the above lines
+  const resetParameters = () => {
+    setParameters({});
+  };
+
+  console.log(parameters);
 
   const [image1Preview, setImage1Preview] = useState(null);
   const [image2Preview, setImage2Preview] = useState(null);
@@ -52,6 +43,10 @@ const ChangeDetection = () => {
   useEffect(() => {
     setErrorMessage("");
   }, [image1, image2]);
+
+  useEffect(() => {
+    resetParameters();
+  }, [algorithm]);
 
   const validateImage = (file) => {
     return new Promise((resolve, reject) => {
@@ -113,48 +108,58 @@ const ChangeDetection = () => {
     const formData = new FormData();
     formData.append("input_image1", image1);
     formData.append("input_image2", image2);
-    if (blockSize !== null && blockSize >= 2 && blockSize <= 5) {
-      formData.append("block_size", blockSize);
+
+    if (algorithm !== null && algorithm !== "") {
+      formData.append("algorithm", algorithm);
+    } else {
+      setErrorMessage("Please select an algorithm");
+      errorRef.current.focus();
+      return;
     }
-    if (
-      morphologicalOperation !== null &&
-      validOperations.includes(morphologicalOperation)
-    ) {
-      formData.append("morphological_operation", morphologicalOperation);
-    }
-    if (
-      numberOfIterations !== null &&
-      numberOfIterations >= 1 &&
-      numberOfIterations <= 3
-    ) {
-      formData.append("morphological_iterations", numberOfIterations);
-    }
+
+    const filteredParameters = Object.fromEntries(
+      Object.entries(parameters).filter(
+        // eslint-disable-next-line no-unused-vars
+        ([key, value]) => value !== "" && value !== null,
+      ),
+    );
+
+    formData.append("parameters", JSON.stringify(filteredParameters));
+
     setResponseImage(null);
     setErrorMessage("");
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
 
     try {
       const response = await changeDetection(formData).unwrap();
       setResponseImage(response.output_image.image);
       setPercentageOfChange(response.percentage_of_change);
-      resetBlockSize();
-      resetMorphologicalOperation();
-      resetNumberOfIterations();
+      resetAlgorithm();
+      resetParameters();
     } catch (error) {
       if (!error?.status) {
         setErrorMessage("Server is not responding");
       } else if (error?.status === 400) {
         setErrorMessage(() => {
           if (error?.data?.input_image1?.[0]) {
+            console.log("img1");
             return error?.data?.input_image1?.[0];
           } else if (error?.data?.input_image2?.[0]) {
+            console.log("img2");
             return error?.data?.input_image2?.[0];
           } else if (error?.data?.block_size?.[0]) {
+            console.log("block_size");
             return error?.data?.block_size?.[0];
           } else if (error?.data?.morphological_operation?.[0]) {
+            console.log("morphological_operation");
             return error?.data?.morphological_operation?.[0];
           } else if (error?.data?.morphological_iterations?.[0]) {
+            console.log("morphological_iterations");
             return error?.data?.morphological_iterations?.[0];
           } else {
+            console.log(error);
             return "Something went wrong";
           }
         });
@@ -186,11 +191,6 @@ const ChangeDetection = () => {
         image1Preview={image1Preview}
         onImage2Change={handleImage2Change}
         image2Preview={image2Preview}
-        //delete the following lines
-        blockSizeAtribs={blockSizeAtribs}
-        morphologicalOperationsAtribs={morphologicalOperationAtribs}
-        numberOfIterationsAtribs={numberOfIterationsAtribs}
-        //delete the above lines
         algorithmAtribs={algorithmAtribs}
         onParametersChange={handleParametersChange}
       />

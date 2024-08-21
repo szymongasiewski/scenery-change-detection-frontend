@@ -12,12 +12,12 @@ const BoundingBoxes = ({ onParametersChange }) => {
   const [upperLimitError, setUpperLimitError] = useState("");
 
   useEffect(() => {
-    onParametersChange("lowerLimit", lowerLimit);
-  }, [lowerLimit, onParametersChange]);
+    onParametersChange("area_lower_limit", lowerLimit);
+  }, [lowerLimit]);
 
   useEffect(() => {
-    onParametersChange("upperLimit", upperLimit);
-  }, [upperLimit, onParametersChange]);
+    onParametersChange("area_upper_limit", upperLimit);
+  }, [upperLimit]);
 
   useEffect(() => {
     if (lowerLimit !== "" && (lowerLimit < 1 || lowerLimit > MAX_SIZE)) {

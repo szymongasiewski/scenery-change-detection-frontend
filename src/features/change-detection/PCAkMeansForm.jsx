@@ -9,8 +9,8 @@ const PCAkMeansForm = ({ onParametersChange }) => {
   const [blockSizeError, setBlockSizeError] = useState("");
 
   useEffect(() => {
-    onParametersChange("blockSize", blockSize);
-  }, [blockSize, onParametersChange]);
+    onParametersChange("block_size", blockSize);
+  }, [blockSize]);
 
   useEffect(() => {
     if (blockSize !== "" && (blockSize < 2 || blockSize > 5)) {

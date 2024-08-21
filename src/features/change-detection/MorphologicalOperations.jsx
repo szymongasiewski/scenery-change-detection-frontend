@@ -25,20 +25,20 @@ const MorphologicalOperations = ({ onParametersChange }) => {
   const [kernelSizeError, setKernelSizeError] = useState("");
 
   useEffect(() => {
-    onParametersChange("morphologicalOperation", morphologicalOperation);
-  }, [morphologicalOperation, onParametersChange]);
+    onParametersChange("morphological_operation", morphologicalOperation);
+  }, [morphologicalOperation]);
 
   useEffect(() => {
-    onParametersChange("numberOfIterations", numberOfIterations);
-  }, [numberOfIterations, onParametersChange]);
+    onParametersChange("morphological_iterations", numberOfIterations);
+  }, [numberOfIterations]);
 
   useEffect(() => {
-    onParametersChange("kernelShape", kernelShape);
-  }, [kernelShape, onParametersChange]);
+    onParametersChange("kernel_shape", kernelShape);
+  }, [kernelShape]);
 
   useEffect(() => {
-    onParametersChange("kernelSize", kernelSize);
-  }, [kernelSize, onParametersChange]);
+    onParametersChange("kernel_size", kernelSize);
+  }, [kernelSize]);
 
   useEffect(() => {
     if (

@@ -3,13 +3,6 @@ import FileInput from "../../components/FileInput";
 import PCAkMeansForm from "./PCAkMeansForm";
 import ImgDiffForm from "./ImgDiffForm";
 
-const options = [
-  { value: "dilate", label: "Dilation" },
-  { value: "erode", label: "Erosion" },
-  { value: "opening", label: "Opening" },
-  { value: "closing", label: "Closing" },
-];
-
 const algorithmOptions = [
   { value: "pca_kmeans", label: "PCA KMeans" },
   { value: "img_diff", label: "Image Difference" },
@@ -21,11 +14,6 @@ const ChangeDetectionForm = ({
   image1Preview,
   onImage2Change,
   image2Preview,
-  //delete the following lines
-  blockSizeAtribs,
-  morphologicalOperationsAtribs,
-  numberOfIterationsAtribs,
-  //delete the above lines
   algorithmAtribs,
   onParametersChange,
 }) => {
@@ -134,10 +122,8 @@ ChangeDetectionForm.propTypes = {
   image1Preview: PropTypes.string,
   onImage2Change: PropTypes.func.isRequired,
   image2Preview: PropTypes.string,
-  blockSizeAtribs: PropTypes.object.isRequired,
-  morphologicalOperationsAtribs: PropTypes.object.isRequired,
-  numberOfIterationsAtribs: PropTypes.object.isRequired,
   algorithmAtribs: PropTypes.object.isRequired,
+  onParametersChange: PropTypes.func.isRequired,
 };
 
 export default ChangeDetectionForm;
