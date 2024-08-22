@@ -4,7 +4,7 @@ import PCAkMeansForm from "./PCAkMeansForm";
 import ImgDiffForm from "./ImgDiffForm";
 
 const algorithmOptions = [
-  { value: "pca_kmeans", label: "PCA KMeans" },
+  { value: "pca_kmeans", label: "PCA k-Means" },
   { value: "img_diff", label: "Image Difference" },
 ];
 
@@ -32,24 +32,6 @@ const ChangeDetectionForm = ({
             imagePreview={image2Preview}
           />
         </div>
-        {/* <div className="flex flex-col justify-center items-center py-2">
-          <label
-            className="text-sm font-medium leading-6 text-gray-900"
-            htmlFor="blocksize"
-          >
-            Block Size
-          </label>
-          <input
-            className="block w-1/2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
-            id="blocksize"
-            name="blocksize"
-            placeholder="Provide block size (2-5)"
-            type="number"
-            max={5}
-            min={2}
-            {...blockSizeAtribs}
-          />
-        </div> */}
         <div className="flex flex-col justify-center items-center py-2">
           <label
             className="text-sm font-medium leading-6 text-gray-900"
@@ -71,28 +53,6 @@ const ChangeDetectionForm = ({
             ))}
           </select>
         </div>
-        {/*delete the following lines*/}
-        {/* {algorithmAtribs.value !== null && algorithmAtribs.value !== "" ? (
-          <div className="flex flex-col justify-center items-center py-2">
-            <label
-              className="text-sm font-medium leading-6 text-gray-900"
-              htmlFor="iterations"
-            >
-              Number of iterations
-            </label>
-            <input
-              className="block w-1/2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
-              id="iterations"
-              name="iterations"
-              placeholder="Provide number of iterations (1-3)"
-              type="number"
-              max={3}
-              min={1}
-              {...numberOfIterationsAtribs}
-            />
-          </div>
-        ) : null} */}
-        {/*delete the above lines*/}
         {(() => {
           switch (algorithmAtribs.value) {
             case "pca_kmeans":

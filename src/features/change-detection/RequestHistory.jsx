@@ -1,6 +1,7 @@
 import { useGetHistoryQuery } from "./changeDetectionApiSlice";
 import { useState } from "react";
 import Spinner from "../../components/Spinner";
+import { Link } from "react-router-dom";
 
 const RequestHistory = () => {
   const [page, setPage] = useState(1);
@@ -41,17 +42,19 @@ const RequestHistory = () => {
               <tr>
                 <th className="px-6 py-3">Request status</th>
                 <th className="px-6 py-3">Date sent</th>
+                <th className="px-6 py-3">Used algorithm</th>
                 <th className="px-6 py-3">Input images</th>
-                <th className="px-6 py-3">Output image</th>
+                <th className="px-6 py-3">Details</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-300">
               {history.results.map((item) => (
                 <tr key={item.id}>
                   <td className="px-6 py-3">{item.status}</td>
-                  <td className="py-3">
+                  <td className="px-6 py-3">
                     {item.created_at.slice(0, 19).replace("T", " ")}
                   </td>
+                  <td className="px-6 py-3">{item.algorithm}</td>
                   <td className="px-6 py-3">
                     {item.input_images.length === 2 ? (
                       <div className="flex justify-center items-center">
@@ -75,19 +78,12 @@ const RequestHistory = () => {
                     )}
                   </td>
                   <td className="px-6 py-3">
-                    <div className="flex justify-center items-center">
-                      {item.output_image === null ? (
-                        "No output"
-                      ) : (
-                        <a href={item.output_image.image}>
-                          <img
-                            src={item.output_image.image}
-                            alt="wrong"
-                            className="max-h-72"
-                          />
-                        </a>
-                      )}
-                    </div>
+                    <Link
+                      className="font-semibold leading-6 text-gray-600 hover:text-gray-500 underline"
+                      to={`/requets-details/${item.id}`}
+                    >
+                      Show details
+                    </Link>
                   </td>
                 </tr>
               ))}
@@ -112,6 +108,67 @@ const RequestHistory = () => {
           </button>
         </div>
       </>
+      // <>
+      //   <div className="overflow-x-auto">
+      //     <table className="table-auto min-w-full text-center divide-y-2 divide-black">
+      //       <thead>
+      //         <tr>
+      //           <th className="px-6 py-3">Request status</th>
+      //           <th className="px-6 py-3">Date sent</th>
+      //           <th className="px-6 py-3">Input images</th>
+      //           <th className="px-6 py-3">Output image</th>
+      //         </tr>
+      //       </thead>
+      //       <tbody className="divide-y divide-slate-300">
+      //         {history.results.map((item) => (
+      //           <tr key={item.id}>
+      //             <td className="px-6 py-3">{item.status}</td>
+      //             <td className="py-3">
+      //               {item.created_at.slice(0, 19).replace("T", " ")}
+      //             </td>
+      //             <td className="px-6 py-3">
+      //               {item.input_images.length === 2 ? (
+      //                 <div className="flex justify-center items-center">
+      //                   <a className="px-1" href={item.input_images[0].image}>
+      //                     <img
+      //                       src={item.input_images[0].image}
+      //                       alt="wrong"
+      //                       className="max-h-72"
+      //                     />
+      //                   </a>
+      //                   <a className="px-1" href={item.input_images[1].image}>
+      //                     <img
+      //                       src={item.input_images[1].image}
+      //                       alt="wrong"
+      //                       className="max-h-72"
+      //                     />
+      //                   </a>
+      //                 </div>
+      //               ) : (
+      //                 "No inputs"
+      //               )}
+      //             </td>
+      //             <td className="px-6 py-3">
+      //               <div className="flex justify-center items-center">
+      //                 {item.output_image === null ? (
+      //                   "No output"
+      //                 ) : (
+      //                   <a href={item.output_image.image}>
+      //                     <img
+      //                       src={item.output_image.image}
+      //                       alt="wrong"
+      //                       className="max-h-72"
+      //                     />
+      //                   </a>
+      //                 )}
+      //               </div>
+      //             </td>
+      //           </tr>
+      //         ))}
+      //       </tbody>
+      //     </table>
+      //   </div>
+      // </>
     );
   }
   return content;

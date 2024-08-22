@@ -6,6 +6,7 @@ import { changeDetectionApiSlice } from "./changeDetectionApiSlice";
 import { useDispatch } from "react-redux";
 import Spinner from "../../components/Spinner";
 import useInput from "../../hooks/useInput";
+import { Link } from "react-router-dom";
 
 const MAX_IMAGE_SIZE = 1024;
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
@@ -26,11 +27,6 @@ const ChangeDetection = () => {
 
   const [image1Preview, setImage1Preview] = useState(null);
   const [image2Preview, setImage2Preview] = useState(null);
-
-  //replece the following lines with response object
-  const [responseImage, setResponseImage] = useState(null);
-  const [percentageOfChange, setPercentageOfChange] = useState(null);
-  //replace the above lines with response object
 
   const [responseObject, setResponseObject] = useState(null);
 
@@ -126,14 +122,12 @@ const ChangeDetection = () => {
 
     formData.append("parameters", JSON.stringify(filteredParameters));
 
-    setResponseImage(null);
     setErrorMessage("");
     setResponseObject(null);
 
     try {
       const response = await changeDetection(formData).unwrap();
-      setResponseImage(response.output_image.image);
-      setPercentageOfChange(response.percentage_of_change);
+
       resetAlgorithm();
       resetParameters();
       setResponseObject(response);
@@ -189,6 +183,14 @@ const ChangeDetection = () => {
       />
       <div className="flex flex-col justify-center items-center">
         <h3 className="mb-4 font-semibold">Response</h3>
+        {responseObject && responseObject.id && (
+          <Link
+            className="font-semibold leading-6 text-gray-600 hover:text-gray-500 underline"
+            to={`/requets-details/${responseObject.id}`}
+          >
+            Show details
+          </Link>
+        )}
         {isLoading ? (
           <>
             <Spinner />
