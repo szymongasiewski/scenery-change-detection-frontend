@@ -13,8 +13,15 @@ export const changeDetectionApiSlice = apiSlice.injectEndpoints({
         body: formData,
       }),
     }),
+    getRequest: builder.query({
+      query: (id) => `image-request/${id}/`,
+      keepUnusedDataFor: 120,
+    }),
   }),
 });
 
-export const { useGetHistoryQuery, useChangeDetectionMutation } =
-  changeDetectionApiSlice;
+export const {
+  useGetHistoryQuery,
+  useChangeDetectionMutation,
+  useGetRequestQuery,
+} = changeDetectionApiSlice;

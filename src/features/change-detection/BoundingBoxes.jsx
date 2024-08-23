@@ -12,15 +12,27 @@ const BoundingBoxes = ({ onParametersChange }) => {
   const [upperLimitError, setUpperLimitError] = useState("");
 
   useEffect(() => {
-    onParametersChange("area_lower_limit", lowerLimit);
+    const parsedLowerLimit = parseInt(lowerLimit, 10);
+    if (!isNaN(parsedLowerLimit)) {
+      onParametersChange("area_lower_limit", parsedLowerLimit);
+    }
   }, [lowerLimit]);
 
   useEffect(() => {
-    onParametersChange("area_upper_limit", upperLimit);
+    const parsedUpperLimit = parseInt(upperLimit, 10);
+    if (!isNaN(parsedUpperLimit)) {
+      onParametersChange("area_upper_limit", parsedUpperLimit);
+    }
   }, [upperLimit]);
 
   useEffect(() => {
-    if (lowerLimit !== "" && (lowerLimit < 1 || lowerLimit > MAX_SIZE)) {
+    const parsedLowerLimit = parseInt(lowerLimit, 10);
+    if (
+      lowerLimit !== "" &&
+      (isNaN(parsedLowerLimit) ||
+        parsedLowerLimit < 1 ||
+        parsedLowerLimit > MAX_SIZE)
+    ) {
       setLowerLimitError(`Lower limit should be between 1 and ${MAX_SIZE}`);
     } else {
       setLowerLimitError("");
@@ -28,7 +40,13 @@ const BoundingBoxes = ({ onParametersChange }) => {
   }, [lowerLimit]);
 
   useEffect(() => {
-    if (upperLimit !== "" && (upperLimit < 1 || upperLimit > MAX_SIZE)) {
+    const parsedUpperLimit = parseInt(upperLimit, 10);
+    if (
+      upperLimit !== "" &&
+      (isNaN(parsedUpperLimit) ||
+        parsedUpperLimit < 1 ||
+        parsedUpperLimit > MAX_SIZE)
+    ) {
       setUpperLimitError(`Upper limit should be between 1 and ${MAX_SIZE}`);
     } else {
       setUpperLimitError("");

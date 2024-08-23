@@ -12,7 +12,7 @@ const Request = () => {
         </h1>
       </div>
       <div>
-        <RequestDetails id={id.id} />
+        <RequestDetails requestId={id.id} />
       </div>
     </div>
   );

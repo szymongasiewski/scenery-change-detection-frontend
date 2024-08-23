@@ -9,11 +9,18 @@ const PCAkMeansForm = ({ onParametersChange }) => {
   const [blockSizeError, setBlockSizeError] = useState("");
 
   useEffect(() => {
-    onParametersChange("block_size", blockSize);
+    const parsedBlockSize = parseInt(blockSize, 10);
+    if (!isNaN(parsedBlockSize)) {
+      onParametersChange("block_size", parsedBlockSize);
+    }
   }, [blockSize]);
 
   useEffect(() => {
-    if (blockSize !== "" && (blockSize < 2 || blockSize > 5)) {
+    const parsedBlockSize = parseInt(blockSize, 10);
+    if (
+      blockSize !== "" &&
+      (isNaN(parsedBlockSize) || parsedBlockSize < 2 || parsedBlockSize > 5)
+    ) {
       setBlockSizeError("Block size should be between 2 and 5");
     } else {
       setBlockSizeError("");

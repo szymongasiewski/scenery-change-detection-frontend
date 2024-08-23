@@ -29,7 +29,10 @@ const MorphologicalOperations = ({ onParametersChange }) => {
   }, [morphologicalOperation]);
 
   useEffect(() => {
-    onParametersChange("morphological_iterations", numberOfIterations);
+    const parsedNumberOfIterations = parseInt(numberOfIterations, 10);
+    if (!isNaN(parsedNumberOfIterations)) {
+      onParametersChange("morphological_iterations", parsedNumberOfIterations);
+    }
   }, [numberOfIterations]);
 
   useEffect(() => {
@@ -37,13 +40,19 @@ const MorphologicalOperations = ({ onParametersChange }) => {
   }, [kernelShape]);
 
   useEffect(() => {
-    onParametersChange("kernel_size", kernelSize);
+    const parsedKernelSize = parseInt(kernelSize, 10);
+    if (!isNaN(parsedKernelSize)) {
+      onParametersChange("kernel_size", parsedKernelSize);
+    }
   }, [kernelSize]);
 
   useEffect(() => {
+    const parsedNumberOfIterations = parseInt(numberOfIterations, 10);
     if (
       numberOfIterations !== "" &&
-      (numberOfIterations < 1 || numberOfIterations > 3)
+      (isNaN(parsedNumberOfIterations) ||
+        parsedNumberOfIterations < 1 ||
+        parsedNumberOfIterations > 3)
     ) {
       setNumberOfIterationsError(
         "Number of iterations should be between 1 and 3",
@@ -54,7 +63,11 @@ const MorphologicalOperations = ({ onParametersChange }) => {
   }, [numberOfIterations]);
 
   useEffect(() => {
-    if (kernelSize !== "" && (kernelSize < 3 || kernelSize > 5)) {
+    const parsedKernelSize = parseInt(kernelSize, 10);
+    if (
+      kernelSize !== "" &&
+      (isNaN(parsedKernelSize) || parsedKernelSize < 3 || parsedKernelSize > 5)
+    ) {
       setKernelSizeError("Kernel size should be between 3 and 5");
     } else {
       setKernelSizeError("");
