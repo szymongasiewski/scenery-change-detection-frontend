@@ -41,44 +41,46 @@ const RequestDetails = ({ requestId }) => {
   } else if (isSuccess) {
     const parameters = JSON.parse(request.parameters);
     content = (
-      <div>
-        <div className="flex justify-center items-center">
-          <div className="flex flex-col w-4/5 justify-center items-center">
+      <div className="flex flex-col items-center">
+        <div className="flex flex-col lg:flex-row justify-center items-center w-full">
+          <div className="flex flex-col w-full md:w-4/6 justify-center items-center">
             <div className="flex flex-col justify-center items-center">
               <div className="font-semibold text-xl py-2">Input images</div>
-              <div className="flex">
+              <div className="flex flex-wrap justify-center">
                 {request.input_images.map((image) => (
                   <a key={image.image} href={image.image}>
                     <img
                       src={image.image}
                       alt="input"
-                      className="max-w-xl px-6 py-6"
+                      className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl px-2 py-2"
                     />
                   </a>
                 ))}
               </div>
             </div>
           </div>
-          <div className="flex flex-col w-1/5 justify-center items-center bg-gray-200 border-2 border-black rounded-md">
-            <div className="flex flex-col justify-center items-center px-6 py-4">
-              <div className="font-semibold">Request status</div>
-              <div>{request.status}</div>
+          <div className="flex flex-col w-full md:w-2/6 justify-center items-center bg-gray-200 border-2 border-black rounded-md md:mt-0 p-4 overflow-auto">
+            <div className="flex flex-col justify-center items-center px-6 py-4 w-full">
+              <div className="font-semibold text-center">Request status</div>
+              <div className="text-center break-words">{request.status}</div>
             </div>
-            <div className="flex flex-col justify-center items-center px-6 py-4">
-              <div className="font-semibold">Date</div>
-              <div>{request.created_at.slice(0, 19).replace("T", " ")}</div>
+            <div className="flex flex-col justify-center items-center px-6 py-4 w-full">
+              <div className="font-semibold text-center">Date</div>
+              <div className="text-center break-words">
+                {request.created_at.slice(0, 19).replace("T", " ")}
+              </div>
             </div>
-            <div className="flex flex-col justify-center items-center px-6 py-4">
-              <div className="font-semibold">Algorithm</div>
-              <div>{request.algorithm}</div>
+            <div className="flex flex-col justify-center items-center px-6 py-4 w-full">
+              <div className="font-semibold text-center">Algorithm</div>
+              <div className="text-center break-words">{request.algorithm}</div>
             </div>
-            <div className="flex flex-col justify-center items-center px-6 py-4">
-              <div className="font-semibold">Parameters</div>
-              <div>
+            <div className="flex flex-col justify-center items-center px-6 py-4 w-full">
+              <div className="font-semibold text-center">Parameters</div>
+              <div className="w-full">
                 {Object.keys(parameters).map((key) => (
-                  <div key={key} className="flex justify-between">
-                    <div className="px-2">{formatString(key)}:</div>
-                    <div className="px-2">{parameters[key]}</div>
+                  <div key={key} className="flex justify-between w-full">
+                    <div className="px-2 break-words">{formatString(key)}:</div>
+                    <div className="px-2 break-words">{parameters[key]}</div>
                   </div>
                 ))}
               </div>
@@ -87,13 +89,13 @@ const RequestDetails = ({ requestId }) => {
         </div>
         <div className="flex flex-col justify-center items-center mt-4">
           <div className="font-semibold py-2 text-xl">Results</div>
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-wrap justify-center">
             {request.output_images.map((image) => (
               <a key={image.image} href={image.image}>
                 <img
                   src={image.image}
                   alt="output"
-                  className="max-w-3xl px-6 py-6"
+                  className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl px-2 py-2"
                 />
               </a>
             ))}
