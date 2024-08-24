@@ -1,6 +1,7 @@
 import { useGetRequestQuery } from "./changeDetectionApiSlice";
 import PropTypes from "prop-types";
 import Spinner from "../../components/Spinner";
+import DeleteRequest from "./DeleteRequest";
 
 const RequestDetails = ({ requestId }) => {
   const {
@@ -77,13 +78,20 @@ const RequestDetails = ({ requestId }) => {
             <div className="flex flex-col justify-center items-center px-6 py-4 w-full">
               <div className="font-semibold text-center">Parameters</div>
               <div className="w-full">
-                {Object.keys(parameters).map((key) => (
-                  <div key={key} className="flex justify-between w-full">
-                    <div className="px-2 break-words">{formatString(key)}:</div>
-                    <div className="px-2 break-words">{parameters[key]}</div>
-                  </div>
-                ))}
+                {Object.keys(parameters).length === 0 ? (
+                  <div className="text-center">Default parameters</div>
+                ) : (
+                  Object.keys(parameters).map((key) => (
+                    <div key={key} className="flex justify-between w-full">
+                      <div className="px-2 break-words">
+                        {formatString(key)}:
+                      </div>
+                      <div className="px-2 break-words">{parameters[key]}</div>
+                    </div>
+                  ))
+                )}
               </div>
+              <DeleteRequest requestId={requestId} />
             </div>
           </div>
         </div>

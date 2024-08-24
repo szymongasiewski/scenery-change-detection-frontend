@@ -17,6 +17,12 @@ export const changeDetectionApiSlice = apiSlice.injectEndpoints({
       query: (id) => `image-request/${id}/`,
       keepUnusedDataFor: 120,
     }),
+    deleteRequest: builder.mutation({
+      query: (id) => ({
+        url: `image-request/${id}/delete/`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -24,4 +30,5 @@ export const {
   useGetHistoryQuery,
   useChangeDetectionMutation,
   useGetRequestQuery,
+  useDeleteRequestMutation,
 } = changeDetectionApiSlice;
