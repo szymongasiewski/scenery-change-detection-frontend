@@ -2,8 +2,11 @@ import { useGetRequestQuery } from "./changeDetectionApiSlice";
 import PropTypes from "prop-types";
 import Spinner from "../../components/Spinner";
 import DeleteRequest from "./DeleteRequest";
+import { useRef, useState, useEffect } from "react";
 
 const RequestDetails = ({ requestId }) => {
+  const errorRef = useRef(null);
+  const [errorMessage, setErrorMessage] = useState("");
   const {
     data: request,
     isLoading,
@@ -11,6 +14,10 @@ const RequestDetails = ({ requestId }) => {
     isError,
     isFetching,
   } = useGetRequestQuery(requestId);
+
+  useEffect(() => {
+    setErrorMessage("");
+  }, [requestId]);
 
   const formatString = (str) => {
     return str
@@ -43,6 +50,17 @@ const RequestDetails = ({ requestId }) => {
     const parameters = JSON.parse(request.parameters);
     content = (
       <div className="flex flex-col items-center">
+        <p
+          ref={errorRef}
+          className={
+            errorMessage
+              ? "block text-xl font-bold leading-6 text-red-700"
+              : "invisible"
+          }
+          aria-live="asserive"
+        >
+          {errorMessage}
+        </p>
         <div className="flex flex-col lg:flex-row justify-center items-center w-full">
           <div className="flex flex-col w-full md:w-4/6 justify-center items-center">
             <div className="flex flex-col justify-center items-center">
@@ -91,7 +109,12 @@ const RequestDetails = ({ requestId }) => {
                   ))
                 )}
               </div>
-              <DeleteRequest requestId={requestId} />
+              <DeleteRequest
+                requestId={requestId}
+                errorRef={errorRef}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+              />
             </div>
           </div>
         </div>
