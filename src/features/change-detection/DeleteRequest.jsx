@@ -1,29 +1,20 @@
 import { useDeleteRequestMutation } from "./changeDetectionApiSlice";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Spinner from "../../components/Spinner";
 import DeleteRequestModal from "./DeleteRequestModal";
 
 const DeleteRequest = ({ requestId, errorRef, setErrorMessage }) => {
-  //const errorRef = useRef();
-
   const [deleteRequest, { isLoading }] = useDeleteRequestMutation();
-  //const [errorMessage, setErrorMessage] = useState("");
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
-
-  //   useEffect(() => {
-  //     setErrorMessage("");
-  //   }, [requestId]);
 
   const handleModalClose = () => {
     setVisible(false);
   };
 
   const handleDelete = async () => {
-    // e.preventDefault();
-
     try {
       // eslint-disable-next-line no-unused-vars
       const response = await deleteRequest(requestId).unwrap();

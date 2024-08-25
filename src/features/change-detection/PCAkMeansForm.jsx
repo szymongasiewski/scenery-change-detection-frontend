@@ -13,6 +13,7 @@ const PCAkMeansForm = ({ onParametersChange }) => {
     if (!isNaN(parsedBlockSize)) {
       onParametersChange("block_size", parsedBlockSize);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockSize]);
 
   useEffect(() => {

@@ -203,16 +203,10 @@ const ChangeDetection = () => {
                 Percentage of change: {responseObject.percentage_of_change}%
               </p>
             )}
-            {responseObject.output_image &&
-              responseObject.output_image.image && (
-                <ResponseImage imageUrl={responseObject.output_image.image} />
-              )}
-            {responseObject.boxes1 && responseObject.boxes1.image && (
-              <ResponseImage imageUrl={responseObject.boxes1.image} />
-            )}
-            {responseObject.boxes2 && responseObject.boxes2.image && (
-              <ResponseImage imageUrl={responseObject.boxes2.image} />
-            )}
+            {responseObject.request.output_images &&
+              responseObject.request.output_images.map((imageObj, index) => (
+                <ResponseImage key={index} imageUrl={imageObj.image} />
+              ))}
           </>
         ) : (
           <div className="bg-gray-200 p-6 border-dashed border-2 rounded-md border-gray-500">

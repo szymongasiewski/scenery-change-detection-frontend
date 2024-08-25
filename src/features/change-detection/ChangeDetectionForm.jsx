@@ -2,10 +2,12 @@ import PropTypes from "prop-types";
 import FileInput from "../../components/FileInput";
 import PCAkMeansForm from "./PCAkMeansForm";
 import ImgDiffForm from "./ImgDiffForm";
+import BgSubForm from "./BgSubForm";
 
 const algorithmOptions = [
   { value: "pca_kmeans", label: "PCA k-Means" },
   { value: "img_diff", label: "Image Difference" },
+  { value: "bg_sub", label: "Background Subtraction" },
 ];
 
 const ChangeDetectionForm = ({
@@ -59,6 +61,8 @@ const ChangeDetectionForm = ({
               return <PCAkMeansForm onParametersChange={onParametersChange} />;
             case "img_diff":
               return <ImgDiffForm onParametersChange={onParametersChange} />;
+            case "bg_sub":
+              return <BgSubForm />;
             default:
               return null;
           }
