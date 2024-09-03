@@ -14,6 +14,7 @@ const RequestDetails = ({ requestId }) => {
     isError,
     isFetching,
   } = useGetRequestQuery(requestId);
+  const [parameters, setParameters] = useState({});
 
   useEffect(() => {
     setErrorMessage("");
@@ -27,6 +28,17 @@ const RequestDetails = ({ requestId }) => {
   };
 
   let content;
+
+  useEffect(() => {
+    if (isSuccess && request) {
+      try {
+        setParameters(JSON.parse(request.parameters));
+        setErrorMessage("");
+      } catch (error) {
+        setParameters({});
+      }
+    }
+  }, [isSuccess, request]);
 
   if (isLoading || isFetching) {
     content = (
@@ -46,8 +58,13 @@ const RequestDetails = ({ requestId }) => {
         <p>No data</p>
       </div>
     );
+  } else if (!request) {
+    content = (
+      <div className="flex w-full justify-center mt-6">
+        <p>Request not found</p>
+      </div>
+    );
   } else if (isSuccess) {
-    const parameters = JSON.parse(request.parameters);
     content = (
       <div className="flex flex-col items-center">
         <p

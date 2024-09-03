@@ -16,6 +16,7 @@ const BoundingBoxes = ({ onParametersChange }) => {
     if (!isNaN(parsedLowerLimit)) {
       onParametersChange("area_lower_limit", parsedLowerLimit);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lowerLimit]);
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const BoundingBoxes = ({ onParametersChange }) => {
     if (!isNaN(parsedUpperLimit)) {
       onParametersChange("area_upper_limit", parsedUpperLimit);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [upperLimit]);
 
   useEffect(() => {
