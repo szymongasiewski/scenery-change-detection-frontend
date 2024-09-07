@@ -183,10 +183,10 @@ const ChangeDetection = () => {
       />
       <div className="flex flex-col justify-center items-center">
         <h3 className="mb-4 font-semibold">Response</h3>
-        {responseObject && responseObject.id && (
+        {responseObject && responseObject.request.id && (
           <Link
             className="font-semibold leading-6 text-gray-600 hover:text-gray-500 underline"
-            to={`/requets-details/${responseObject.id}`}
+            to={`/requets-details/${responseObject.request.id}`}
           >
             Show details
           </Link>
