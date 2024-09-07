@@ -76,7 +76,11 @@ const RegisterForm = () => {
       if (!error?.status) {
         setErrorMessage("Network error.");
       } else if (error.status === 400) {
-        setErrorMessage("Invalid email or password.");
+        if (error.data.email) {
+          setErrorMessage("Email already exists.");
+        } else {
+          setErrorMessage("Invalid password.");
+        }
       } else {
         setErrorMessage("Registration failed.");
       }
