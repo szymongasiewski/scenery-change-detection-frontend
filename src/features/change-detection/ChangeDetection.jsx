@@ -6,6 +6,7 @@ import { changeDetectionApiSlice } from "./changeDetectionApiSlice";
 import { useDispatch } from "react-redux";
 import Spinner from "../../components/Spinner";
 import useInput from "../../hooks/useInput";
+import { Link } from "react-router-dom";
 
 const MAX_IMAGE_SIZE = 1024;
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
@@ -13,10 +14,21 @@ const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 const ChangeDetection = () => {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
-  const [blockSize, resetBlockSize, blockSizeAtribs] = useInput("");
+  const [algorithm, resetAlgorithm, algorithmAtribs] = useInput("");
+  const [parameters, setParameters] = useState({});
+
+  const handleParametersChange = (name, value) => {
+    setParameters((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const resetParameters = () => {
+    setParameters({});
+  };
+
   const [image1Preview, setImage1Preview] = useState(null);
   const [image2Preview, setImage2Preview] = useState(null);
-  const [responseImage, setResponseImage] = useState(null);
+
+  const [responseObject, setResponseObject] = useState(null);
 
   const errorRef = useRef();
   const [errorMessage, setErrorMessage] = useState("");
@@ -27,6 +39,10 @@ const ChangeDetection = () => {
   useEffect(() => {
     setErrorMessage("");
   }, [image1, image2]);
+
+  useEffect(() => {
+    resetParameters();
+  }, [algorithm]);
 
   const validateImage = (file) => {
     return new Promise((resolve, reject) => {
@@ -88,16 +104,33 @@ const ChangeDetection = () => {
     const formData = new FormData();
     formData.append("input_image1", image1);
     formData.append("input_image2", image2);
-    if (blockSize !== null && blockSize >= 2 && blockSize <= 5) {
-      formData.append("block_size", blockSize);
+
+    if (algorithm !== null && algorithm !== "") {
+      formData.append("algorithm", algorithm);
+    } else {
+      setErrorMessage("Please select an algorithm");
+      errorRef.current.focus();
+      return;
     }
-    setResponseImage(null);
+
+    const filteredParameters = Object.fromEntries(
+      Object.entries(parameters).filter(
+        // eslint-disable-next-line no-unused-vars
+        ([key, value]) => value !== "" && value !== null,
+      ),
+    );
+
+    formData.append("parameters", JSON.stringify(filteredParameters));
+
     setErrorMessage("");
+    setResponseObject(null);
 
     try {
       const response = await changeDetection(formData).unwrap();
-      setResponseImage(response.output_image.image);
-      resetBlockSize();
+
+      resetAlgorithm();
+      resetParameters();
+      setResponseObject(response);
     } catch (error) {
       if (!error?.status) {
         setErrorMessage("Server is not responding");
@@ -109,6 +142,10 @@ const ChangeDetection = () => {
             return error?.data?.input_image2?.[0];
           } else if (error?.data?.block_size?.[0]) {
             return error?.data?.block_size?.[0];
+          } else if (error?.data?.morphological_operation?.[0]) {
+            return error?.data?.morphological_operation?.[0];
+          } else if (error?.data?.morphological_iterations?.[0]) {
+            return error?.data?.morphological_iterations?.[0];
           } else {
             return "Something went wrong";
           }
@@ -141,22 +178,37 @@ const ChangeDetection = () => {
         image1Preview={image1Preview}
         onImage2Change={handleImage2Change}
         image2Preview={image2Preview}
-        blockSizeAtribs={blockSizeAtribs}
+        algorithmAtribs={algorithmAtribs}
+        onParametersChange={handleParametersChange}
       />
-      {isLoading ? (
-        <div className="flex flex-col justify-center items-center">
-          <h3 className="mb-4 font-semibold">Response Image</h3>
-          <Spinner />
-          <p className="mt-4">Processing images...</p>
-        </div>
-      ) : responseImage ? (
-        <div className="flex flex-col justify-center items-center">
-          <h3 className="mb-4 font-semibold">Response Image</h3>
-          <ResponseImage imageUrl={responseImage} />
-        </div>
-      ) : (
-        <div className="flex flex-col justify-center items-center">
-          <h3 className="mb-4 font-semibold">Response Image</h3>
+      <div className="flex flex-col justify-center items-center">
+        <h3 className="mb-4 font-semibold">Response</h3>
+        {responseObject && responseObject.request.id && (
+          <Link
+            className="font-semibold leading-6 text-gray-600 hover:text-gray-500 underline"
+            to={`/requets-details/${responseObject.request.id}`}
+          >
+            Show details
+          </Link>
+        )}
+        {isLoading ? (
+          <>
+            <Spinner />
+            <p className="mt-4">Processing images...</p>
+          </>
+        ) : responseObject ? (
+          <>
+            {responseObject.percentage_of_change && (
+              <p className="text-lg font-semibold">
+                Percentage of change: {responseObject.percentage_of_change}%
+              </p>
+            )}
+            {responseObject.request.output_images &&
+              responseObject.request.output_images.map((imageObj, index) => (
+                <ResponseImage key={index} imageUrl={imageObj.image} />
+              ))}
+          </>
+        ) : (
           <div className="bg-gray-200 p-6 border-dashed border-2 rounded-md border-gray-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -173,8 +225,8 @@ const ChangeDetection = () => {
               />
             </svg>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

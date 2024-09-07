@@ -14,6 +14,7 @@ import ChangeDetectionApp from "./pages/ChangeDetectionApp";
 import VerifyEmail from "./pages/VerifyEmail";
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordResetConfirm from "./pages/PasswordResetConfirm";
+import Request from "./pages/Request";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route path="delete-account" element={<DeleteAccount />} />
               <Route path="change-password" element={<ChangePassword />} />
               <Route path="history" element={<History />} />
+              <Route path="requets-details/:id" element={<Request />} />
             </Route>
           </Route>
         </Route>
