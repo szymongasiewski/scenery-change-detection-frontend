@@ -62,7 +62,7 @@ const ChangeDetectionForm = ({
             case "img_diff":
               return <ImgDiffForm onParametersChange={onParametersChange} />;
             case "bg_sub":
-              return <BgSubForm />;
+              return <BgSubForm onParametersChange={onParametersChange} />;
             default:
               return null;
           }
