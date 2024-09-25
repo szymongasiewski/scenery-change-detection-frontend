@@ -2,7 +2,7 @@
 
 This repository is the frontend of an application created as part of a diploma thesis, the topic of which is **"Detection of scenery changes in time in pictures"**.
 
-The application was created at the Faculty of Computer Science of the Białystok University of Technology.
+The application was created at the **Faculty of Computer Science of the Białystok University of Technology**.
 
 ## Requirements
 
