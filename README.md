@@ -4,6 +4,18 @@ This repository is the frontend of an application created as part of a diploma t
 
 The application was created at the **Faculty of Computer Science of the Białystok University of Technology**.
 
+## Technologies
+This project was built using the following technologies:
+- **JavaScript**
+- **React**
+- **Vite**
+- **Tailwind CSS**
+- **React Router**
+- **Axios**
+- **Redux Toolkit**
+- **Node.js**
+- **npm**
+
 ## Requirements
 
 To build and run this application you need:
